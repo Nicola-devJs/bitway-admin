@@ -8,17 +8,16 @@ import image from "../../../assets/images/r-architecture-2gDwlIim3Uw-unsplash.jp
 import { LinkApp } from "../../UI/link/LinkApp";
 import { NAVMENU } from "../../constants/menu";
 import { SnackbarApp } from "../../UI/snackbar/Snackbar";
-import { useState } from "react";
+import { FC, useState } from "react";
+import { IPropertyCard } from "../../interfaces/property";
 
-// TODO Временная переменная
-const NAMEPROPERTY = "name";
-
-export const PropertyCard = () => {
+export const PropertyCard: FC<IPropertyCard> = ({ heading, description, id, price }) => {
   const [descriptionSnackbar, setDescriptionSnackbar] = useState("");
+  const sharePropertyLink = `${NAVMENU.PROPERTY}${encodeURIComponent(heading)}`;
 
   const writeTextHandler = () => {
     navigator.clipboard
-      .writeText(`${NAVMENU.PROPERTY}${NAMEPROPERTY}`)
+      .writeText(window.location.href + sharePropertyLink)
       .then(() => setDescriptionSnackbar("Ссылка на объект недвижимости скопирована"))
       .catch(() => setDescriptionSnackbar("Упс, ссылка не скопировалась, попробуйте еще раз"));
   };
@@ -33,12 +32,11 @@ export const PropertyCard = () => {
         <CardMedia component="img" alt="green iguana" height="250" image={image} />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            Property
+            {heading}
           </Typography>
+          <Typography variant="body1">{price} ₽</Typography>
           <Typography variant="body2" color="text.secondary">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Corrupti in ex tempora perspiciatis labore
-            repellendus minus a. Totam amet alias numquam est molestias, suscipit possimus fuga optio aliquid dolor
-            vero!
+            {description}
           </Typography>
         </CardContent>
         <CardActions>
@@ -46,7 +44,7 @@ export const PropertyCard = () => {
             Share
           </Button>
           <Button size="small">
-            <LinkApp to={`${NAVMENU.PROPERTY}${NAMEPROPERTY}`} style={{ color: "#1976d2" }}>
+            <LinkApp to={sharePropertyLink} style={{ color: "#1976d2" }} state={id}>
               More
             </LinkApp>
           </Button>
