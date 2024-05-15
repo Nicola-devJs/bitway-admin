@@ -5,11 +5,11 @@ import { Pagination } from "@mui/material";
 import { useGetPropertiesAllQuery } from "../../redux/services/properties";
 import { SkeletonApp } from "../../shared/components/skeleton/SkeletonApp";
 
-const visisbleCountItems = 4;
+const visisbleCountItems = 8;
 
 export const Properties = () => {
   const [page, setPage] = useState(1);
-  const { data: properties, isLoading } = useGetPropertiesAllQuery();
+  const { data: properties } = useGetPropertiesAllQuery();
 
   const propertyCardList = properties
     ? properties.map((prop, id) => <PropertyCard key={id} {...prop} />)
@@ -19,24 +19,18 @@ export const Properties = () => {
 
   return (
     <>
-      {isLoading ? (
-        <ListApp list={propertyCardList} />
-      ) : (
-        <>
-          {properties && properties.length && (
-            <>
-              <ListApp list={propertyCardList} />
-              <Pagination
-                count={Math.ceil(properties.length / visisbleCountItems)}
-                page={page}
-                onChange={(_, pageNumber) => setPage(pageNumber)}
-                color="primary"
-                sx={{ mt: 3, display: "flex", justifyContent: "flex-end" }}
-              />
-            </>
-          )}
-        </>
-      )}
+      <>
+        {/* <ListApp list={properties} minWidth={290} itemNode={PropertyCard} skeletonNode={SkeletonApp} /> */}
+        {properties?.length ? (
+          <Pagination
+            count={Math.ceil(properties.length / visisbleCountItems)}
+            page={page}
+            onChange={(_, pageNumber) => setPage(pageNumber)}
+            color="primary"
+            sx={{ mt: 3, display: "flex", justifyContent: "flex-end" }}
+          />
+        ) : null}
+      </>
     </>
   );
 };

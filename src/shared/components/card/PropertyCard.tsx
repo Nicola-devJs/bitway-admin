@@ -2,20 +2,32 @@ import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import ShareIcon from "@mui/icons-material/Share";
+import DeleteIcon from "@mui/icons-material/Delete";
+import ReadMoreIcon from "@mui/icons-material/ReadMore";
 import image from "../../../assets/images/r-architecture-2gDwlIim3Uw-unsplash.jpg";
 import { LinkApp } from "../../UI/link/LinkApp";
 import { NAVMENU } from "../../constants/menu";
 import { SnackbarApp } from "../../UI/snackbar/Snackbar";
-import { FC, useState } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import { IPropertyCard } from "../../interfaces/property";
+import { useRemovePropertyMutation } from "../../../redux/services/properties";
+import { Button, Dialog, DialogActions, DialogTitle, IconButton } from "@mui/material";
+import { BackdropContext } from "../../hoc/BackdropProvider";
 
 export const PropertyCard: FC<IPropertyCard> = ({ heading, description, id, price }) => {
   const [descriptionSnackbar, setDescriptionSnackbar] = useState("");
-  const sharePropertyLink = `${NAVMENU.PROPERTY}${encodeURIComponent(heading)}`;
+  const { toggleBackdrop } = useContext(BackdropContext);
+  const [openModal, setOpenModal] = useState(false);
+  const [removePropertyAction, { isLoading }] = useRemovePropertyMutation();
+  const sharePropertyLink = `${NAVMENU.PROPERTY}${id}`;
 
-  const writeTextHandler = () => {
+  useEffect(() => {
+    toggleBackdrop(isLoading);
+  }, [isLoading]);
+
+  const writeTextHandler: React.MouseEventHandler = () => {
     navigator.clipboard
       .writeText(window.location.href + sharePropertyLink)
       .then(() => setDescriptionSnackbar("Ссылка на объект недвижимости скопирована"))
@@ -24,6 +36,24 @@ export const PropertyCard: FC<IPropertyCard> = ({ heading, description, id, pric
 
   const clearSnackbar = () => {
     setDescriptionSnackbar("");
+  };
+
+  const showModalHandler = () => {
+    setOpenModal(true);
+  };
+
+  const hideModalHandler = () => {
+    setOpenModal(false);
+  };
+
+  const deletePropertyCard: React.MouseEventHandler = () => {
+    removePropertyAction(id)
+      .unwrap()
+      .then(() => {
+        hideModalHandler();
+        setDescriptionSnackbar("Вы успешно удалили объект!");
+      })
+      .catch(() => setDescriptionSnackbar("Упс, похоже что объект не удалился ("));
   };
 
   return (
@@ -40,16 +70,39 @@ export const PropertyCard: FC<IPropertyCard> = ({ heading, description, id, pric
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size="small" color="secondary" onClick={writeTextHandler}>
-            Share
-          </Button>
-          <Button size="small">
-            <LinkApp to={sharePropertyLink} style={{ color: "#1976d2" }} state={id}>
-              More
+          <IconButton aria-label="share" onClick={writeTextHandler}>
+            <ShareIcon />
+          </IconButton>
+          <IconButton aria-label="delete" onClick={showModalHandler}>
+            <DeleteIcon />
+          </IconButton>
+
+          <IconButton aria-label="delete" style={{ marginLeft: "auto" }}>
+            <LinkApp
+              to={sharePropertyLink}
+              style={{ color: "inherit", display: "flex", alignItems: "center", gap: 10 }}
+            >
+              More <ReadMoreIcon />
             </LinkApp>
-          </Button>
+          </IconButton>
         </CardActions>
       </Card>
+      <Dialog
+        open={openModal}
+        onClose={hideModalHandler}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Вы действительно хотите удалить объект?"}</DialogTitle>
+        <DialogActions>
+          <Button onClick={deletePropertyCard} color="primary" autoFocus>
+            Удалить
+          </Button>
+          <Button onClick={hideModalHandler} color="secondary">
+            Отмена
+          </Button>
+        </DialogActions>
+      </Dialog>
       <SnackbarApp isOpen={!!descriptionSnackbar} handleClose={clearSnackbar} description={descriptionSnackbar} />
     </>
   );

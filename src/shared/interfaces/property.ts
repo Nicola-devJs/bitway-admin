@@ -1,6 +1,12 @@
-export interface IPropertyCard {
-  id: number;
+export interface IFieldValues {
   heading: string;
   description: string;
-  price: number;
+  price: string;
+  square: string;
+  type: string;
+  category: string;
+}
+
+export interface IPropertyCard extends IFieldValues {
+  id: string;
 }

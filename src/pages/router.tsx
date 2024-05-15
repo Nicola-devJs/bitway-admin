@@ -16,7 +16,7 @@ export const router = createBrowserRouter([
       { path: NAVMENU.PUBLIC, element: <Publish /> },
       { path: NAVMENU.MODERATION, element: <Moderation /> },
       { path: NAVMENU.ARCHIVE, element: <Archive /> },
-      { path: `${NAVMENU.PROPERTY}:name`, element: <Property /> },
+      { path: `${NAVMENU.PROPERTY}:id`, element: <Property /> },
     ],
     errorElement: <div>Not Found</div>,
   },

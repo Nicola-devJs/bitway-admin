@@ -1,26 +1,35 @@
-import React, { FC } from "react";
+import React, { FC, useRef } from "react";
 
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
-
-interface IProps {
-  list: React.ReactNode[] | undefined;
+interface IProps<T> {
+  list: T[] | undefined;
+  minWidth: number;
+  itemNode: React.ReactElement<T>;
+  skeletonNode?: React.ReactNode;
 }
 
-export const ListApp: FC<IProps> = ({ list }) => {
+const styles = (countColumns: number): React.CSSProperties => ({
+  width: "100%",
+  display: "grid",
+  gridTemplateColumns: `repeat(${countColumns}, 1fr)`,
+  gridTemplateRows: "auto",
+  gridGap: "1.346vw",
+});
+
+export const ListApp = <T,>({ list, minWidth, itemNode, skeletonNode }: IProps<T>) => {
+  const containerListRef = useRef<HTMLDivElement>(null);
+  const widthContainer = containerListRef.current?.offsetWidth || minWidth;
+
   return (
     <>
-      <Grid container spacing={3} sx={{ flexGrow: 1 }}>
-        {list && list?.length ? (
-          list.map((item, id) => (
-            <Grid key={id} xs>
-              {item}
-            </Grid>
-          ))
-        ) : (
-          <div>Empty data</div>
-        )}
-        {}
-      </Grid>
+      {list?.length ? (
+        <div style={styles(Math.floor(widthContainer / minWidth) || 1)} ref={containerListRef}>
+          {list.map((item, id) => (
+            <React.Fragment key={id}>{item}</React.Fragment>
+          ))}
+        </div>
+      ) : (
+        <div>Empty data</div>
+      )}
     </>
   );
 };

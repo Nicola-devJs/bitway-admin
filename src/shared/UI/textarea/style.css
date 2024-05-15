@@ -1,0 +1,39 @@
+.textarea__container {
+  font: inherit;
+  padding: 16.5px 14px;
+  border-color: rgba(0, 0, 0, 0.23);
+  border-radius: 4px;
+  resize: none;
+  width: 100%;
+
+  &:focus {
+    outline: none;
+    border-color: #1976d2;
+  }
+
+  &.error {
+    border-color: #d32f2f;
+
+    &::placeholder {
+      color: #d32f2f;
+    }
+  }
+}
+
+.textarea__helper-text {
+  color: rgba(0, 0, 0, 0.6);
+  font-family: inherit;
+  font-weight: 400;
+  font-size: 0.75rem;
+  line-height: 1.66;
+  letter-spacing: 0.03333em;
+  text-align: left;
+  margin-top: 3px;
+  margin-right: 14px;
+  margin-bottom: 0;
+  margin-left: 14px;
+
+  &.error {
+    color: #d32f2f;
+  }
+}

@@ -1,17 +1,23 @@
-import { TextareaAutosize } from "@mui/material";
-import React from "react";
+import { ReactNode, TextareaHTMLAttributes, forwardRef } from "react";
 
-export const TextareaApp = () => {
+import "./style.css";
+
+interface IProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+  error?: boolean;
+  helperText?: ReactNode;
+}
+
+export const TextareaApp = forwardRef<HTMLTextAreaElement, IProps>(({ error, helperText, ...props }, ref) => {
   return (
-    <TextareaAutosize
-      minRows={5}
-      maxRows={6}
-      style={{
-        font: "inherit",
-        padding: "16.5px 14px",
-        borderColor: "rgba(0, 0, 0, 0.23)",
-        borderRadius: 4,
-      }}
-    />
+    <div>
+      <textarea
+        rows={5}
+        // maxRows={5}
+        className={`textarea__container ${error ? "error" : ""}`}
+        ref={ref}
+        {...props}
+      />
+      {helperText && <p className={`textarea__helper-text ${error ? "error" : ""}`}>{helperText}</p>}
+    </div>
   );
-};
+});
