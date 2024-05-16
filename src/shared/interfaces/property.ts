@@ -10,3 +10,13 @@ export interface IFieldValues {
 export interface IPropertyCard extends IFieldValues {
   id: string;
 }
+
+export interface IResponseProperties {
+  data: IPropertyCard[];
+  first: number;
+  last: number;
+  items: number;
+  pages: number;
+  next: number;
+  prev: number;
+}

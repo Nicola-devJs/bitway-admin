@@ -1,16 +1,16 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { IPropertyCard, IFieldValues } from "../../shared/interfaces/property";
+import { IPropertyCard, IFieldValues, IResponseProperties } from "../../shared/interfaces/property";
 
 export const propertiesApi = createApi({
   reducerPath: "propertiesApi",
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8000/" }),
   tagTypes: ["Properties"],
   endpoints: (builder) => ({
-    getPropertiesAll: builder.query<IPropertyCard[], void>({
-      query: () => "properties",
+    getPropertiesAll: builder.query<IResponseProperties, { page: number; limit: number }>({
+      query: ({ page, limit }) => `properties?_page=${page}&_per_page=${limit}`,
       providesTags: (results) =>
         results
-          ? [...results.map(({ id }) => ({ type: "Properties", id } as const)), { type: "Properties", id: "LIST" }]
+          ? [...results.data.map(({ id }) => ({ type: "Properties", id } as const)), { type: "Properties", id: "LIST" }]
           : [{ type: "Properties", id: "LIST" }],
     }),
     getPropertyById: builder.query<IPropertyCard, number>({

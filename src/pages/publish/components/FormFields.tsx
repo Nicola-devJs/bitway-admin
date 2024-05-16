@@ -2,19 +2,15 @@ import { TextField, MenuItem } from "@mui/material";
 import { TextareaApp } from "../../../shared/UI/textarea/TextareaApp";
 import { optionsType, optionsCategory } from "../../../shared/constants/propertyFields";
 import { IFieldValues } from "../../../shared/interfaces/property";
-import { RegisterOptions } from "react-hook-form";
 import { validateRequired } from "../../../shared/helpers/fieldsValidations";
+import { FieldFormType, FormApp, FormHandlerType } from "../../../shared/components/form/FormApp";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 
-type FieldFormType<T extends IFieldValues> = {
-  name: keyof T;
-  rules?: RegisterOptions<T>;
-  inputForm: React.ReactElement;
-};
-
-export const FormFields: FieldFormType<IFieldValues>[] = [
-  { name: "heading", inputForm: <TextField label="Heading" variant="outlined" />, rules: validateRequired() },
-  { name: "price", inputForm: <TextField label="Price" variant="outlined" type="number" /> },
-  { name: "square", inputForm: <TextField label="Square" variant="outlined" type="number" /> },
+const FormFields: FieldFormType<IFieldValues>[] = [
+  // { name: "heading", inputForm: <TextField label="Heading" variant="outlined" />, rules: validateRequired() },
+  // { name: "price", inputForm: <TextField label="Price" variant="outlined" type="number" /> },
+  // { name: "square", inputForm: <TextField label="Square" variant="outlined" type="number" /> },
   {
     name: "type",
     inputForm: (
@@ -41,5 +37,14 @@ export const FormFields: FieldFormType<IFieldValues>[] = [
     ),
     rules: validateRequired(),
   },
-  { name: "description", inputForm: <TextareaApp placeholder="Description" /> },
+  // { name: "description", inputForm: <TextareaApp placeholder="Description" /> },
 ];
+
+export const AnnouncementTypeForm = () => {
+  const { control, handleSubmit } = useForm<IFieldValues>();
+  const formValuesAnnouncementTypeHandler = (data: IFieldValues) => {
+    console.log(data);
+  };
+
+  return <FormApp fields={FormFields} control={control} />;
+};

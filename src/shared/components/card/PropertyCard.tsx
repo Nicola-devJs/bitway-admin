@@ -58,13 +58,13 @@ export const PropertyCard: FC<IPropertyCard> = ({ heading, description, id, pric
 
   return (
     <>
-      <Card sx={{ maxWidth: 345 }}>
+      <Card sx={{ maxWidth: 345, display: "flex", flexDirection: "column" }}>
         <CardMedia component="img" alt="green iguana" height="250" image={image} />
-        <CardContent>
+        <CardContent sx={{ flexGrow: 1 }}>
           <Typography gutterBottom variant="h5" component="div">
             {heading}
           </Typography>
-          <Typography variant="body1">{price} ₽</Typography>
+          <Typography variant="body1">{price && `${price} ₽`}</Typography>
           <Typography variant="body2" color="text.secondary">
             {description}
           </Typography>

@@ -1,7 +1,7 @@
 import { Box, Skeleton } from "@mui/material";
 import React from "react";
 
-export const SkeletonApp = () => {
+export const SkeletonCard = () => {
   return (
     <Box width={"100%"}>
       <Skeleton variant="rounded" height={277} />

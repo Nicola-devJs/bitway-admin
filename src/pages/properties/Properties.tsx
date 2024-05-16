@@ -1,36 +1,37 @@
-import { useState } from "react";
-import { PropertyCard } from "../../shared/components/card/PropertyCard";
-import { ListApp } from "../../shared/components/list/ListApp";
+import { useEffect, useRef, useState } from "react";
+import { ListPropertyCards } from "../../shared/components/list/ListPropertyCards";
 import { Pagination } from "@mui/material";
 import { useGetPropertiesAllQuery } from "../../redux/services/properties";
-import { SkeletonApp } from "../../shared/components/skeleton/SkeletonApp";
 
-const visisbleCountItems = 8;
+const minWidthColumn = 277;
+
+// TODO Исправить баг с пагинацией при удалении последнего элемента на последней странице
 
 export const Properties = () => {
+  const containerListRef = useRef<HTMLDivElement>(null);
+  const [countColumns, setCountColumns] = useState(1);
   const [page, setPage] = useState(1);
-  const { data: properties } = useGetPropertiesAllQuery();
+  const { data: properties, isFetching } = useGetPropertiesAllQuery({ page, limit: countColumns * 2 });
 
-  const propertyCardList = properties
-    ? properties.map((prop, id) => <PropertyCard key={id} {...prop} />)
-    : Array(visisbleCountItems)
-        .fill(" ")
-        .map((_, id) => <SkeletonApp key={id} />);
+  useEffect(() => {
+    if (containerListRef.current) {
+      setCountColumns(Math.floor(containerListRef.current.offsetWidth / minWidthColumn) || 1);
+    }
+  }, [containerListRef]);
 
   return (
-    <>
-      <>
-        {/* <ListApp list={properties} minWidth={290} itemNode={PropertyCard} skeletonNode={SkeletonApp} /> */}
-        {properties?.length ? (
-          <Pagination
-            count={Math.ceil(properties.length / visisbleCountItems)}
-            page={page}
-            onChange={(_, pageNumber) => setPage(pageNumber)}
-            color="primary"
-            sx={{ mt: 3, display: "flex", justifyContent: "flex-end" }}
-          />
-        ) : null}
-      </>
-    </>
+    <div ref={containerListRef}>
+      <ListPropertyCards list={properties?.data} countColumns={countColumns} loading={isFetching} />
+
+      {properties && (
+        <Pagination
+          count={properties.pages}
+          page={page}
+          onChange={(_, pageNumber) => setPage(pageNumber)}
+          color="primary"
+          sx={{ mt: 3, display: "flex", justifyContent: "flex-end" }}
+        />
+      )}
+    </div>
   );
 };
