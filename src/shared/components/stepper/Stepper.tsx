@@ -5,21 +5,22 @@ import Step from "@mui/material/Step";
 import StepButton from "@mui/material/StepButton";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import { FieldValues, useForm } from "react-hook-form";
+import { FieldFormType, FormApp } from "../form/FormApp";
+import { OptionsCategoryValueKeys } from "../../../pages/publish/constants/formFieldOptions";
 
-// submitHandler: (handleComplete: () => void) => void
-
-interface IProps {
-  steps: {
-    label: string;
-    body: React.ReactNode;
-  }[];
+interface IProps<T extends FieldValues> {
+  getSteps: (category: OptionsCategoryValueKeys) => { label: string; fields: FieldFormType<T>[] }[];
 }
 
-export const StepperApp = ({ steps }: IProps) => {
+export const StepperApp = <T extends FieldValues>({ getSteps }: IProps<T>) => {
   const [activeStep, setActiveStep] = React.useState(0);
+  const { control, handleSubmit, getValues, reset } = useForm<T>();
   const [completed, setCompleted] = React.useState<{
     [k: number]: boolean;
   }>({});
+
+  const steps = getSteps(getValues()?.category);
 
   const totalSteps = (decrement: number = 0) => steps.length - decrement;
 
@@ -49,19 +50,20 @@ export const StepperApp = ({ steps }: IProps) => {
     setActiveStep(step);
   };
 
-  const handleComplete = () => {
+  const handleComplete = (data: T) => {
     const newCompleted = completed;
     if (!newCompleted[activeStep]) {
       newCompleted[activeStep] = true;
       setCompleted(newCompleted);
     }
-
+    console.log(data);
     handleNext();
   };
 
   const handleReset = () => {
     setActiveStep(0);
     setCompleted({});
+    reset();
   };
 
   return (
@@ -86,7 +88,9 @@ export const StepperApp = ({ steps }: IProps) => {
           </React.Fragment>
         ) : (
           <React.Fragment>
-            <Box sx={{ mt: 2, mb: 1, py: 2 }}>{steps[activeStep].body}</Box>
+            <Box sx={{ mt: 2, mb: 1, py: 2 }}>
+              <FormApp control={control} fields={steps[activeStep].fields} />
+            </Box>
 
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
               <Button color="inherit" disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 1 }}>
@@ -95,7 +99,7 @@ export const StepperApp = ({ steps }: IProps) => {
               <Box sx={{ flex: "1 1 auto" }} />
 
               {activeStep !== steps.length && (
-                <Button onClick={handleComplete} type="submit">
+                <Button onClick={handleSubmit(handleComplete)} type="submit">
                   {completedSteps() === totalSteps(1) ? "Отправить" : "Дальше"}
                 </Button>
               )}

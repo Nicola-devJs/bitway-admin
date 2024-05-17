@@ -1,13 +1,6 @@
-export interface IFieldValues {
-  heading: string;
-  description: string;
-  price: string;
-  square: string;
-  type: string;
-  category: string;
-}
+import { IFormFields } from "./form/formFields";
 
-export interface IPropertyCard extends IFieldValues {
+export interface IPropertyCard extends IFormFields {
   id: string;
 }
 

@@ -1,11 +1,12 @@
 import { Grid, TextFieldProps } from "@mui/material";
 import React from "react";
-import { Control, Controller, FieldValues, Path, RegisterOptions } from "react-hook-form";
+import { Controller, FieldValues, Path, RegisterOptions, Control } from "react-hook-form";
 
 export type FieldFormType<T extends FieldValues> = {
   name: Path<T>;
   rules?: RegisterOptions<T>;
   inputForm: React.ReactElement;
+  defaultValue?: unknown;
 };
 
 interface IProps<T extends FieldValues> {
@@ -17,7 +18,7 @@ export const FormApp = <T extends FieldValues>({ fields, control }: IProps<T>) =
   return (
     <>
       <Grid container sx={{ flexDirection: "column" }} rowGap={2} component={"form"}>
-        {fields.map((field) => (
+        {fields?.map((field) => (
           <Controller
             control={control}
             name={field.name}
@@ -26,7 +27,7 @@ export const FormApp = <T extends FieldValues>({ fields, control }: IProps<T>) =
             render={({ field: { value, ...rest }, fieldState }) =>
               React.createElement<TextFieldProps>(field.inputForm.type, {
                 ...field.inputForm.props,
-                value: value || "",
+                value: value || field.defaultValue || "",
                 error: !!fieldState.error,
                 helperText: fieldState.error?.message,
                 ...rest,
