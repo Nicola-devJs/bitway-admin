@@ -1,5 +1,6 @@
 export interface IAddressObject {
   location: string;
+  coordinates: [number, number];
 }
 
 export interface IAddressApartments {

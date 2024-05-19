@@ -24,12 +24,12 @@ export const ObjectParamsApartments: FieldFormType<IObjectParamsApartments>[] = 
     rules: validateRequired(),
   },
   {
-    name: "totalArea",
+    name: "generalArea",
     inputForm: <TextField label="Total area" variant="outlined" type="number" />,
     rules: validateRequired(),
   },
   {
-    name: "residentialArea",
+    name: "livingArea",
     inputForm: <TextField label="Residential area" variant="outlined" type="number" />,
     rules: validateRequired(),
   },
@@ -37,12 +37,12 @@ export const ObjectParamsApartments: FieldFormType<IObjectParamsApartments>[] = 
 
 export const ObjectParamsHouse: FieldFormType<IObjectParamsHouse>[] = [
   {
-    name: "plotArea",
+    name: "generalArea",
     inputForm: <TextField label="Plot area" variant="outlined" type="number" />,
     rules: validateRequired(),
   },
   {
-    name: "houseArea",
+    name: "livingArea",
     inputForm: <TextField label="House area" variant="outlined" type="number" />,
     rules: validateRequired(),
   },
@@ -57,7 +57,7 @@ export const ObjectParamsHouse: FieldFormType<IObjectParamsHouse>[] = [
     rules: validateRequired(),
   },
   {
-    name: "houseStructure",
+    name: "typeStructure",
     inputForm: (
       <TextField label="House structure" variant="outlined" select>
         {optionsHouseStructure.map((option) => (
@@ -73,7 +73,7 @@ export const ObjectParamsHouse: FieldFormType<IObjectParamsHouse>[] = [
 
 export const ObjectParamsPlot: FieldFormType<IObjectParamsPlot>[] = [
   {
-    name: "plotArea",
+    name: "generalArea",
     inputForm: <TextField label="Plot area" variant="outlined" type="number" />,
     rules: validateRequired(),
   },
@@ -81,7 +81,7 @@ export const ObjectParamsPlot: FieldFormType<IObjectParamsPlot>[] = [
 
 export const ObjectParamsGarage: FieldFormType<IObjectParamsGarage>[] = [
   {
-    name: "garageArea",
+    name: "generalArea",
     inputForm: <TextField label="Garage area" variant="outlined" type="number" />,
     rules: validateRequired(),
   },

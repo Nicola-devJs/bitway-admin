@@ -1,20 +1,20 @@
 export interface IObjectParamsApartments {
   numberRooms: string;
-  totalArea: string;
-  residentialArea: string;
+  generalArea: string;
+  livingArea: string;
 }
 export interface IObjectParamsHouse {
-  plotArea: string;
-  houseArea: string;
+  generalArea: string;
+  livingArea: string;
   numberFloor: string;
   numberRooms: string;
-  houseStructure: string;
+  typeStructure: string;
 }
 
 export interface IObjectParamsPlot {
-  plotArea: string;
+  generalArea: string;
 }
 
 export interface IObjectParamsGarage {
-  garageArea: string;
+  generalArea: string;
 }

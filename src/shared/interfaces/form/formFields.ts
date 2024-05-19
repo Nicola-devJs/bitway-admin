@@ -21,7 +21,7 @@ export interface IDescriptionFields {
 export interface IPriceFields {
   price: string;
   phone: string;
-  messengers: string;
+  messengers: string[];
 }
 
 // TODO Написать условный generic тип исходя из значения category
