@@ -3,8 +3,8 @@ import { FieldFormType } from "../../../../shared/components/form/FormApp";
 import { validateRequired } from "../../../../shared/helpers/fieldsValidations";
 import { IObjectFeaturesApartments, IObjectFeaturesHouse } from "../../../../shared/interfaces/form/featuresFields";
 import { optionsAdditionally, optionsEntrance } from "../../constants/formFieldOptions";
-import { SelectApp } from "../../../../shared/UI/select/SelectApp";
 import { ToggleButtons } from "../../../../shared/UI/toggleButtons/ToggleButtons";
+import { SelectAutocompleteApp } from "../../../../shared/UI/selectAutocomplete/SelectAutocomplete";
 
 export const ObjectFeaturesApartments: FieldFormType<IObjectFeaturesApartments>[] = [
   {
@@ -22,7 +22,7 @@ export const ObjectFeaturesApartments: FieldFormType<IObjectFeaturesApartments>[
 export const ObjectFeaturesHouse: FieldFormType<IObjectFeaturesHouse>[] = [
   {
     name: "additionally",
-    inputForm: <SelectApp list={optionsAdditionally} label="Аdditionally" variant="outlined" multiple />,
+    inputForm: <SelectAutocompleteApp options={optionsAdditionally} label="Аdditionally" variant="outlined" multiple />,
     rules: validateRequired(),
     defaultValue: [],
   },

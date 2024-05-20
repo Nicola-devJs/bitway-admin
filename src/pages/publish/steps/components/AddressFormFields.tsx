@@ -47,8 +47,8 @@ export const AddressObjectFields: FieldFormType<IAddressObject>[] = [
     inputForm: <TextField label="Location" variant="outlined" />,
     rules: validateRequired(),
   },
-  {
-    name: "coordinates",
-    inputForm: <YMapApp />,
-  },
+  // {
+  //   name: "coordinates",
+  //   inputForm: <YMapApp />,
+  // },
 ];

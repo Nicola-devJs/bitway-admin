@@ -1,4 +1,4 @@
-import { ToggleButtonGroup, ToggleButton, ToggleButtonGroupProps, Box, InputLabel, Typography } from "@mui/material";
+import { ToggleButtonGroup, ToggleButton, ToggleButtonGroupProps, Box, Typography } from "@mui/material";
 import React, { forwardRef } from "react";
 
 type OptionType = {

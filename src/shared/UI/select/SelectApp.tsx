@@ -17,7 +17,7 @@ export const SelectApp = forwardRef<HTMLInputElement, IProps & SelectProps>(
     return (
       <Box>
         {label && <InputLabel sx={{ p: 1 }}>{label}</InputLabel>}
-        <Select {...props} ref={ref} fullWidth placeholder={label}>
+        <Select {...props} ref={ref} fullWidth>
           {list.map((option) => (
             <MenuItem key={option.value} value={option.value}>
               {option.label}

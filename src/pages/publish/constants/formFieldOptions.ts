@@ -39,14 +39,7 @@ export const optionsEntrance = [
   { value: "garbageСhute", label: "Мусоропровод" },
 ];
 
-export const optionsAdditionally = [
-  { value: "garage", label: "Гараж" },
-  { value: "cellar", label: "Погреб" },
-  { value: "bathhouse", label: "Баня" },
-  { value: "terrace", label: "Терраса" },
-  { value: "garden", label: "Полисадник" },
-  { value: "vegetableGarden", label: "Огород" },
-];
+export const optionsAdditionally = ["Гараж", "Погреб", "Баня", "Терраса", "Полисадник", "Огород"];
 
 export type OptionsCategoryValueKeys = (typeof optionsCategory)[number]["value"];
 //? export type OptionsTypeValueKeys = (typeof optionsTransactionType)[number]["value"];
