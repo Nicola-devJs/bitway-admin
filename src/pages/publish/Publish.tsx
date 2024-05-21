@@ -18,6 +18,14 @@ export const Publish = () => {
   //   toggleBackdrop(isLoading);
   // }, [isLoading]);
 
+  const registateDate = (data: Record<string, any>) => {
+    console.log(data);
+  };
+
   // TODO Было бы неплохо избавиться от any
-  return <StepperApp getSteps={getFormSteps as any} />;
+  return (
+    <>
+      <StepperApp getSteps={getFormSteps as any} getFormData={registateDate} />
+    </>
+  );
 };

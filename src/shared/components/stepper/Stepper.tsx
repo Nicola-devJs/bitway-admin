@@ -10,10 +10,11 @@ import { FieldFormType, FormApp } from "../form/FormApp";
 import { OptionsCategoryValueKeys } from "../../../pages/publish/constants/formFieldOptions";
 
 interface IProps<T extends FieldValues> {
-  getSteps: (category: OptionsCategoryValueKeys) => { label: string; fields: FieldFormType<T>[] }[];
+  getSteps: (category: OptionsCategoryValueKeys) => { label: string; fields: FieldFormType<T>[] | JSX.Element }[];
+  getFormData: (data: T) => void;
 }
 
-export const StepperApp = <T extends FieldValues>({ getSteps }: IProps<T>) => {
+export const StepperApp = <T extends FieldValues>({ getSteps, getFormData }: IProps<T>) => {
   const [activeStep, setActiveStep] = React.useState(0);
   const { control, handleSubmit, getValues, reset } = useForm<T>();
   const [completed, setCompleted] = React.useState<{
@@ -28,8 +29,8 @@ export const StepperApp = <T extends FieldValues>({ getSteps }: IProps<T>) => {
     return Object.keys(completed).length;
   };
 
-  const isLastStep = () => {
-    return activeStep === totalSteps(1);
+  const isLastStep = (decrement: number = 1) => {
+    return activeStep === totalSteps(decrement);
   };
 
   const allStepsCompleted = () => {
@@ -56,7 +57,10 @@ export const StepperApp = <T extends FieldValues>({ getSteps }: IProps<T>) => {
       newCompleted[activeStep] = true;
       setCompleted(newCompleted);
     }
-    console.log(data);
+    if (isLastStep(2)) {
+      getFormData(data);
+    }
+
     handleNext();
   };
 
@@ -89,7 +93,11 @@ export const StepperApp = <T extends FieldValues>({ getSteps }: IProps<T>) => {
         ) : (
           <React.Fragment>
             <Box sx={{ mt: 2, mb: 1, py: 2 }}>
-              <FormApp control={control} fields={steps[activeStep].fields} />
+              {Array.isArray(steps[activeStep].fields) ? (
+                <FormApp control={control} fields={steps[activeStep].fields as FieldFormType<T>[]} />
+              ) : (
+                <>{steps[activeStep].fields}</>
+              )}
             </Box>
 
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>

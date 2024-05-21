@@ -1,4 +1,4 @@
-import { MenuItem, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 import { FieldFormType } from "../../../../shared/components/form/FormApp";
 import { validateRequired } from "../../../../shared/helpers/fieldsValidations";
 import {
@@ -8,19 +8,12 @@ import {
   IObjectParamsPlot,
 } from "../../../../shared/interfaces/form/paramsFields";
 import { optionsHouseStructure, optionsNumberRooms } from "../../constants/formFieldOptions";
+import { SelectApp } from "../../../../shared/UI/select/SelectApp";
 
 export const ObjectParamsApartments: FieldFormType<IObjectParamsApartments>[] = [
   {
     name: "numberRooms",
-    inputForm: (
-      <TextField label="Number rooms" variant="outlined" select>
-        {optionsNumberRooms.map((option) => (
-          <MenuItem key={option.value} value={option.value}>
-            {option.label}
-          </MenuItem>
-        ))}
-      </TextField>
-    ),
+    inputForm: <SelectApp options={optionsNumberRooms} label="Кол-во комнат" />,
     rules: validateRequired(),
   },
   {
@@ -58,15 +51,7 @@ export const ObjectParamsHouse: FieldFormType<IObjectParamsHouse>[] = [
   },
   {
     name: "typeStructure",
-    inputForm: (
-      <TextField label="House structure" variant="outlined" select>
-        {optionsHouseStructure.map((option) => (
-          <MenuItem key={option.value} value={option.value}>
-            {option.label}
-          </MenuItem>
-        ))}
-      </TextField>
-    ),
+    inputForm: <SelectApp options={optionsHouseStructure} label="Тип строения" />,
     rules: validateRequired(),
   },
 ];

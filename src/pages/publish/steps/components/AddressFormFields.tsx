@@ -3,7 +3,7 @@ import { FieldFormType } from "../../../../shared/components/form/FormApp";
 import { optionsTypeStructure } from "../../constants/formFieldOptions";
 import { validateRequired } from "../../../../shared/helpers/fieldsValidations";
 import { IAddressApartments, IAddressObject } from "../../../../shared/interfaces/form/addressFields";
-import { YMapApp } from "../../../../shared/UI/map/YMapApp";
+import { SelectApp } from "../../../../shared/UI/select/SelectApp";
 
 export const AddressApartmentsFields: FieldFormType<IAddressApartments>[] = [
   {
@@ -28,15 +28,7 @@ export const AddressApartmentsFields: FieldFormType<IAddressApartments>[] = [
   },
   {
     name: "typeStructure",
-    inputForm: (
-      <TextField label="Type structure" variant="outlined" select>
-        {optionsTypeStructure.map((option) => (
-          <MenuItem key={option.value} value={option.value}>
-            {option.label}
-          </MenuItem>
-        ))}
-      </TextField>
-    ),
+    inputForm: <SelectApp options={optionsTypeStructure} label="Тип здания" />,
     rules: validateRequired(),
   },
 ];
@@ -47,8 +39,4 @@ export const AddressObjectFields: FieldFormType<IAddressObject>[] = [
     inputForm: <TextField label="Location" variant="outlined" />,
     rules: validateRequired(),
   },
-  // {
-  //   name: "coordinates",
-  //   inputForm: <YMapApp />,
-  // },
 ];

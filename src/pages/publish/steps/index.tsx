@@ -1,3 +1,4 @@
+import { PropertyObject } from "../../../shared/components/object/PropertyObject";
 import { OptionsCategoryValueKeys } from "../constants/formFieldOptions";
 import * as FormFields from "./components/FormFields";
 
@@ -26,9 +27,9 @@ const FeaturesFields = (value: OptionsCategoryValueKeys) => {
     case "house":
       return FormFields.ObjectFeaturesHouse;
     case "plot":
-      return FormFields.ObjectFeaturesApartments;
+      return FormFields.ObjectFeaturesPlot;
     case "garage":
-      return FormFields.ObjectFeaturesApartments;
+      return FormFields.ObjectFeaturesGarage;
   }
 };
 
@@ -42,5 +43,6 @@ export const getFormSteps = (value: OptionsCategoryValueKeys) => [
   { label: "Особенности", fields: FeaturesFields(value) },
 
   { label: "Описание", fields: FormFields.DescriptionFormFields },
-  // { label: "Стоимость", fields: <div>step test Цена</div> },
+  { label: "Стоимость", fields: FormFields.PriceFormFields },
+  { label: "Презентация", fields: <PropertyObject /> },
 ];
