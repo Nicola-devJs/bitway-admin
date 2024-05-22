@@ -24,7 +24,6 @@ export {
 } from "./ObjectFeaturesFormFields";
 
 const AnnouncementTypeFormFields: FieldFormType<IAnnouncementTypeFields>[] = [
-  // { name: "price", inputForm: <TextField label="Price" variant="outlined" type="number" /> },
   {
     name: "typeTransaction",
     inputForm: <SelectApp options={optionsTransactionType} label="Тип предложения" />,
@@ -59,5 +58,7 @@ const PriceFormFields: FieldFormType<IPriceFields>[] = [
     rules: validateRequired(),
   },
 ];
+
+export const AnnouncementTypeFormFieldsName = AnnouncementTypeFormFields.map((filed) => filed.name);
 
 export { AnnouncementTypeFormFields, DescriptionFormFields, PriceFormFields };

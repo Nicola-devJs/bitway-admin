@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
@@ -8,6 +8,8 @@ import Typography from "@mui/material/Typography";
 import { FieldValues, useForm } from "react-hook-form";
 import { FieldFormType, FormApp } from "../form/FormApp";
 import { OptionsCategoryValueKeys } from "../../../pages/publish/constants/formFieldOptions";
+import { resetUnnecessaryFieldsForm } from "../../helpers/filterObject";
+import { AnnouncementTypeFormFieldsName } from "../../../pages/publish/steps/components/FormFields";
 
 interface IProps<T extends FieldValues> {
   getSteps: (category: OptionsCategoryValueKeys) => { label: string; fields: FieldFormType<T>[] | JSX.Element }[];
@@ -20,8 +22,8 @@ export const StepperApp = <T extends FieldValues>({ getSteps, getFormData }: IPr
   const [completed, setCompleted] = React.useState<{
     [k: number]: boolean;
   }>({});
-
-  const steps = getSteps(getValues()?.category);
+  const categoryValue = getValues()?.category;
+  const steps = getSteps(categoryValue);
 
   const totalSteps = (decrement: number = 0) => steps.length - decrement;
 
@@ -29,8 +31,8 @@ export const StepperApp = <T extends FieldValues>({ getSteps, getFormData }: IPr
     return Object.keys(completed).length;
   };
 
-  const isLastStep = (decrement: number = 1) => {
-    return activeStep === totalSteps(decrement);
+  const isLastStep = () => {
+    return activeStep === totalSteps(1);
   };
 
   const allStepsCompleted = () => {
@@ -57,7 +59,7 @@ export const StepperApp = <T extends FieldValues>({ getSteps, getFormData }: IPr
       newCompleted[activeStep] = true;
       setCompleted(newCompleted);
     }
-    if (isLastStep(2)) {
+    if (isLastStep()) {
       getFormData(data);
     }
 
@@ -69,6 +71,13 @@ export const StepperApp = <T extends FieldValues>({ getSteps, getFormData }: IPr
     setCompleted({});
     reset();
   };
+
+  useEffect(() => {
+    if (categoryValue) {
+      resetUnnecessaryFieldsForm(getValues(), AnnouncementTypeFormFieldsName, reset);
+      setCompleted({ 0: true });
+    }
+  }, [categoryValue]);
 
   return (
     <Box sx={{ width: "100%" }}>

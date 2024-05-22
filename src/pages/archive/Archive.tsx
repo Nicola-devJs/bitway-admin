@@ -1,7 +1,5 @@
-import { useScreenExtension } from "../../shared/hooks/screenExtension";
+import { useState } from "react";
 
 export const Archive = () => {
-  const [minTabletScreen] = useScreenExtension([{ screenExtension: 768 }]);
-
-  return <div>{minTabletScreen ? "Archive" : "Not Archive"} </div>;
+  return <div></div>;
 };

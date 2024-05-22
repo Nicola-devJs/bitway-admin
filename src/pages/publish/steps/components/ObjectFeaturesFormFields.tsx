@@ -5,6 +5,7 @@ import {
   IObjectFeaturesApartments,
   IObjectFeaturesGarage,
   IObjectFeaturesHouse,
+  IObjectFeaturesMedia,
   IObjectFeaturesPlot,
 } from "../../../../shared/interfaces/form/featuresFields";
 import {
@@ -20,6 +21,20 @@ import {
 import { ToggleButtons } from "../../../../shared/UI/toggleButtons/ToggleButtons";
 import { SelectAutocompleteApp } from "../../../../shared/UI/selectAutocomplete/SelectAutocomplete";
 import { SelectApp } from "../../../../shared/UI/select/SelectApp";
+import { UploadApp } from "../../../../shared/UI/upload/UploadApp";
+
+const ObjectFeaturesFields: FieldFormType<IObjectFeaturesMedia>[] = [
+  {
+    name: "photos",
+    inputForm: <UploadApp label="Photos" />,
+    rules: validateRequired(),
+  },
+  {
+    name: "plans",
+    inputForm: <UploadApp label="Plans" />,
+    rules: validateRequired(),
+  },
+];
 
 export const ObjectFeaturesApartments: FieldFormType<IObjectFeaturesApartments>[] = [
   {
@@ -38,15 +53,17 @@ export const ObjectFeaturesApartments: FieldFormType<IObjectFeaturesApartments>[
     rules: validateRequired(),
   },
   {
-    name: "parking",
-    inputForm: <ToggleButtons list={optionsEntrance} label="Entrance" color="primary" />,
+    name: "entrance",
+    inputForm: <ToggleButtons list={optionsEntrance} label="Entrance" color="primary" multiple />,
     rules: validateRequired(),
+    defaultValue: [],
   },
   {
-    name: "entrance",
-    inputForm: <ToggleButtons list={optionsParking} label="Entrance" color="primary" />,
+    name: "parking",
+    inputForm: <ToggleButtons list={optionsParking} label="Parking" color="primary" />,
     rules: validateRequired(),
   },
+  ...(ObjectFeaturesFields as any),
 ];
 
 export const ObjectFeaturesHouse: FieldFormType<IObjectFeaturesHouse>[] = [
@@ -88,6 +105,7 @@ export const ObjectFeaturesHouse: FieldFormType<IObjectFeaturesHouse>[] = [
     rules: validateRequired(),
     defaultValue: [],
   },
+  ...(ObjectFeaturesFields as any),
 ];
 
 export const ObjectFeaturesPlot: FieldFormType<IObjectFeaturesPlot>[] = [
@@ -111,6 +129,7 @@ export const ObjectFeaturesPlot: FieldFormType<IObjectFeaturesPlot>[] = [
     inputForm: <ToggleButtons list={optionsHasAvailable} label="Электричество" color="primary" />,
     rules: validateRequired(),
   },
+  ...(ObjectFeaturesFields as any),
 ];
 
 export const ObjectFeaturesGarage: FieldFormType<IObjectFeaturesGarage>[] = [
@@ -124,4 +143,5 @@ export const ObjectFeaturesGarage: FieldFormType<IObjectFeaturesGarage>[] = [
     inputForm: <ToggleButtons list={optionsHasAvailable} label="Электричество" color="primary" />,
     rules: validateRequired(),
   },
+  ...(ObjectFeaturesFields as any),
 ];

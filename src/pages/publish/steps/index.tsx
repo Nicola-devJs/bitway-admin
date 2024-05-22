@@ -24,10 +24,13 @@ const FeaturesFields = (value: OptionsCategoryValueKeys) => {
   switch (value) {
     case "apartment":
       return FormFields.ObjectFeaturesApartments;
+
     case "house":
       return FormFields.ObjectFeaturesHouse;
+
     case "plot":
       return FormFields.ObjectFeaturesPlot;
+
     case "garage":
       return FormFields.ObjectFeaturesGarage;
   }

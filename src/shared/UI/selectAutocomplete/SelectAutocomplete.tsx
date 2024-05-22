@@ -24,6 +24,7 @@ export const SelectAutocompleteApp = forwardRef<HTMLInputElement, IProps<any>>(
         filterSelectedOptions
         isOptionEqualToValue={isOptionEqualToValue}
         renderInput={(params) => <TextField {...params} {...props} ref={ref} />}
+        disableCloseOnSelect={multiple}
       />
     );
   }

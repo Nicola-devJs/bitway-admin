@@ -1,4 +1,4 @@
-interface IObjectFeaturesMedia {
+export interface IObjectFeaturesMedia {
   photos: string[];
   plans: string[];
 }

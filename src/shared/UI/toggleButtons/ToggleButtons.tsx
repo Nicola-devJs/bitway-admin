@@ -11,10 +11,12 @@ interface IProps extends ToggleButtonGroupProps {
   label?: string;
   helperText?: string;
   error?: boolean;
+  onChange?: (value: any) => void;
+  multiple?: boolean;
 }
 
 export const ToggleButtons = forwardRef<HTMLInputElement, IProps>(
-  ({ list, label, helperText, error, ...props }, ref) => {
+  ({ list, label, helperText, error, onChange, multiple, ...props }, ref) => {
     return (
       <Box>
         {label && (
@@ -22,7 +24,13 @@ export const ToggleButtons = forwardRef<HTMLInputElement, IProps>(
             {label}
           </Typography>
         )}
-        <ToggleButtonGroup ref={ref} fullWidth {...props}>
+        <ToggleButtonGroup
+          ref={ref}
+          fullWidth
+          {...props}
+          onChange={(_, value) => onChange?.(value)}
+          exclusive={!multiple}
+        >
           {list.map((option) => (
             <ToggleButton key={option.value} value={option.value} sx={{ borderColor: error ? "#d32f2f" : "inherit" }}>
               {option.label}

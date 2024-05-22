@@ -15,6 +15,7 @@ import { IPropertyCard } from "../../interfaces/property";
 import { useRemovePropertyMutation } from "../../../redux/services/properties";
 import { Button, Dialog, DialogActions, DialogTitle, IconButton } from "@mui/material";
 import { BackdropContext } from "../../hoc/BackdropProvider";
+import { ModalApp } from "../../UI/modal/ModalApp";
 
 export const PropertyCard: FC<IPropertyCard> = ({ heading, description, id, price }) => {
   const [descriptionSnackbar, setDescriptionSnackbar] = useState("");
@@ -87,22 +88,21 @@ export const PropertyCard: FC<IPropertyCard> = ({ heading, description, id, pric
           </IconButton>
         </CardActions>
       </Card>
-      <Dialog
-        open={openModal}
-        onClose={hideModalHandler}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">{"Вы действительно хотите удалить объект?"}</DialogTitle>
-        <DialogActions>
-          <Button onClick={deletePropertyCard} color="primary" autoFocus>
-            Удалить
-          </Button>
-          <Button onClick={hideModalHandler} color="secondary">
-            Отмена
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <ModalApp
+        isOpen={openModal}
+        handelCloseModal={hideModalHandler}
+        title={"Вы действительно хотите удалить объект?"}
+        actions={
+          <>
+            <Button onClick={deletePropertyCard} color="primary" autoFocus>
+              Удалить
+            </Button>
+            <Button onClick={hideModalHandler} color="secondary">
+              Отмена
+            </Button>
+          </>
+        }
+      />
       <SnackbarApp isOpen={!!descriptionSnackbar} handleClose={clearSnackbar} description={descriptionSnackbar} />
     </>
   );
