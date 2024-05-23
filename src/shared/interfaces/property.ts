@@ -1,6 +1,6 @@
 import { IFormFields } from "./form/formFields";
 
-export interface IPropertyCard extends IFormFields {
+export interface IPropertyCard {
   id: string;
 }
 

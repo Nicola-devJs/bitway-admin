@@ -6,7 +6,7 @@ import {
   IObjectFeaturesHouse,
   IObjectFeaturesPlot,
 } from "./featuresFields";
-import { OptionsCategoryValueKeys } from "../../../pages/publish/constants/formFieldOptions";
+import { optionsCategory } from "../../../pages/publish/constants/formFieldOptions";
 
 export interface IAnnouncementTypeFields {
   typeTransaction: string;
@@ -24,7 +24,26 @@ export interface IPriceFields {
   messengers: string[];
 }
 
-// TODO Написать условный generic тип исходя из значения category
-type AddressApartments = IAnnouncementTypeFields["category"] extends "apartment" ? IAddressApartments : IAddressObject;
+export type OptionsCategoryValueKeys = (typeof optionsCategory)[number]["value"];
 
-export type IFormFields = IAnnouncementTypeFields & IDescriptionFields & IPriceFields & AddressApartments;
+export enum GenericTypeFields {
+  Apartment = "apartment",
+  House = "house",
+  Garage = "garage",
+  Plot = "plot",
+}
+
+type UniqueTypeFields<T> = T extends GenericTypeFields.Apartment
+  ? IAddressApartments & IObjectParamsApartments & IObjectFeaturesApartments
+  : T extends GenericTypeFields.House
+  ? IAddressObject & IObjectParamsHouse & IObjectFeaturesHouse
+  : T extends GenericTypeFields.Garage
+  ? IAddressObject & IObjectParamsGarage & IObjectFeaturesGarage
+  : T extends GenericTypeFields.Plot
+  ? IAddressObject & IObjectParamsPlot & IObjectFeaturesPlot
+  : never;
+
+export type IFormFields<T extends GenericTypeFields> = IAnnouncementTypeFields &
+  IDescriptionFields &
+  IPriceFields &
+  UniqueTypeFields<T>;

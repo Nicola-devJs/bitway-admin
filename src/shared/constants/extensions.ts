@@ -1,6 +1,6 @@
-export const media = {
-  desktop: 1440,
-  laptop: 1099,
-  tablet: 768,
-  phone: 425,
-};
+export enum MediaExtension {
+  Desktop = 1440,
+  Laptop = 1099,
+  Tablet = 768,
+  Phone = 425,
+}

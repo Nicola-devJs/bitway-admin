@@ -13,7 +13,7 @@ import { SnackbarApp } from "../../UI/snackbar/Snackbar";
 import { FC, useContext, useEffect, useState } from "react";
 import { IPropertyCard } from "../../interfaces/property";
 import { useRemovePropertyMutation } from "../../../redux/services/properties";
-import { Button, Dialog, DialogActions, DialogTitle, IconButton } from "@mui/material";
+import { Button, IconButton } from "@mui/material";
 import { BackdropContext } from "../../hoc/BackdropProvider";
 import { ModalApp } from "../../UI/modal/ModalApp";
 

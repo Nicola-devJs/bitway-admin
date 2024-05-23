@@ -1,4 +1,3 @@
-import { PropertyObject } from "../../../shared/components/object/PropertyObject";
 import { OptionsCategoryValueKeys } from "../constants/formFieldOptions";
 import * as FormFields from "./components/FormFields";
 
@@ -47,5 +46,5 @@ export const getFormSteps = (value: OptionsCategoryValueKeys) => [
 
   { label: "Описание", fields: FormFields.DescriptionFormFields },
   { label: "Стоимость", fields: FormFields.PriceFormFields },
-  { label: "Презентация", fields: <PropertyObject /> },
+  { label: "Презентация" },
 ];

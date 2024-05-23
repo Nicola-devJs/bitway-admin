@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { IPropertyCard, IFieldValues, IResponseProperties } from "../../shared/interfaces/property";
+import { IPropertyCard, IResponseProperties } from "../../shared/interfaces/property";
 
 export const propertiesApi = createApi({
   reducerPath: "propertiesApi",
@@ -17,7 +17,7 @@ export const propertiesApi = createApi({
       query: (queryToId) => `properties/${queryToId}`,
       providesTags: (result, error, id) => [{ type: "Properties", id }],
     }),
-    addProperty: builder.mutation<IPropertyCard, IFieldValues>({
+    addProperty: builder.mutation<IPropertyCard, Record<string, unknown>>({
       query: (body) => ({ url: "properties", body: { id: `${Date.now()}`, ...body }, method: "POST" }),
       invalidatesTags: [{ type: "Properties", id: "LIST" }],
     }),

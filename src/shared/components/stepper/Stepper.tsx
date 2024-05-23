@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
@@ -10,9 +10,11 @@ import { FieldFormType, FormApp } from "../form/FormApp";
 import { OptionsCategoryValueKeys } from "../../../pages/publish/constants/formFieldOptions";
 import { resetUnnecessaryFieldsForm } from "../../helpers/filterObject";
 import { AnnouncementTypeFormFieldsName } from "../../../pages/publish/steps/components/FormFields";
+import { ObjectInfo } from "../objectInfo/ObjectInfo";
+import { LinkApp } from "../../UI/link/LinkApp";
 
 interface IProps<T extends FieldValues> {
-  getSteps: (category: OptionsCategoryValueKeys) => { label: string; fields: FieldFormType<T>[] | JSX.Element }[];
+  getSteps: (category: OptionsCategoryValueKeys) => { label: string; fields?: FieldFormType<T>[] }[];
   getFormData: (data: T) => void;
 }
 
@@ -69,7 +71,7 @@ export const StepperApp = <T extends FieldValues>({ getSteps, getFormData }: IPr
   const handleReset = () => {
     setActiveStep(0);
     setCompleted({});
-    reset();
+    resetUnnecessaryFieldsForm(getValues(), [], reset);
   };
 
   useEffect(() => {
@@ -93,19 +95,24 @@ export const StepperApp = <T extends FieldValues>({ getSteps, getFormData }: IPr
       <div>
         {allStepsCompleted() ? (
           <React.Fragment>
-            <Typography sx={{ mt: 2, mb: 1 }}>Все степы выполнены</Typography>
-            <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+            <Typography sx={{ mt: 2, mb: 1 }} variant="h3">
+              Объект успешно опубликован
+            </Typography>
+            <Box sx={{ display: "flex", flexDirection: "row", pt: 2, gap: 3 }}>
               <Box sx={{ flex: "1 1 auto" }} />
-              <Button onClick={handleReset}>Reset</Button>
+              <LinkApp to="/">
+                <Button>Вернуться в мои объекты</Button>
+              </LinkApp>
+              <Button onClick={handleReset}>Опубликовать еще</Button>
             </Box>
           </React.Fragment>
         ) : (
           <React.Fragment>
             <Box sx={{ mt: 2, mb: 1, py: 2 }}>
-              {Array.isArray(steps[activeStep].fields) ? (
+              {steps[activeStep].fields ? (
                 <FormApp control={control} fields={steps[activeStep].fields as FieldFormType<T>[]} />
               ) : (
-                <>{steps[activeStep].fields}</>
+                <ObjectInfo {...getValues()} />
               )}
             </Box>
 

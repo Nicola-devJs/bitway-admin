@@ -1,5 +1,9 @@
-import { useState } from "react";
+import { ObjectInfo } from "../../shared/components/objectInfo/ObjectInfo";
 
 export const Archive = () => {
-  return <div></div>;
+  return (
+    <div>
+      <ObjectInfo />
+    </div>
+  );
 };

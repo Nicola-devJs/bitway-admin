@@ -2,9 +2,13 @@ import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { Box, CircularProgress, ImageList, ImageListItem, Typography } from "@mui/material";
+import { Box, CircularProgress, IconButton, ImageList, ImageListItem, Typography } from "@mui/material";
 import { ModalApp } from "../modal/ModalApp";
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import { useScreenExtension } from "../../hooks/screenExtension";
+import { MediaExtension } from "../../constants/extensions";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -18,6 +22,24 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
+const ItemImageOverlay = styled(Box)({
+  "position": "absolute",
+  "top": 0,
+  "left": 0,
+  "right": 0,
+  "bottom": 0,
+  "transition": "all .2s ease",
+  "display": "flex",
+  "justifyContent": "center",
+  "alignItems": "center",
+  "backgroundColor": "transparent",
+  "opacity": 0,
+  ":hover": {
+    backgroundColor: "rgba(255, 255, 255, 0.3)",
+    opacity: 1,
+  },
+});
+
 interface IProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange"> {
   label?: string;
   helperText?: string;
@@ -29,6 +51,7 @@ export const UploadApp = React.forwardRef<HTMLInputElement, IProps>(
   ({ error, helperText, label, onChange, value, ...props }, ref) => {
     const [openModal, setOpenModal] = React.useState(false);
     const [activeStepImage, setActiveStepImage] = React.useState(0);
+    const [minLaptopExtension] = useScreenExtension([{ screenExtension: MediaExtension.Laptop }]);
     const loading = false;
 
     const changeHandler: React.ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -55,6 +78,15 @@ export const UploadApp = React.forwardRef<HTMLInputElement, IProps>(
 
     const handleNextStep = () => {
       setActiveStepImage(activeStepImage + 1);
+    };
+
+    const handelDeleteImage = (id: number) => () => {
+      if (!Array.isArray(value)) {
+        return;
+      }
+
+      const filteredImages = value.filter((_, idImage) => idImage !== id);
+      onChange?.(filteredImages);
     };
 
     return (
@@ -102,10 +134,20 @@ export const UploadApp = React.forwardRef<HTMLInputElement, IProps>(
           </Typography>
         )}
         {Array.isArray(value) && (
-          <ImageList cols={4} rowHeight={400} sx={{ mt: 3 }}>
+          <ImageList cols={4} sx={{ mt: 3 }}>
             {value.map((url: string, id) => (
-              <ImageListItem key={url} onClick={showModalHandler(id)}>
+              <ImageListItem key={url} sx={{ minHeight: minLaptopExtension ? 250 : "auto" }}>
                 <img src={url} alt={`image-${url}`} loading="lazy" />
+                <ItemImageOverlay>
+                  <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <IconButton onClick={handelDeleteImage(id)} size="large" color="error">
+                      <DeleteIcon />
+                    </IconButton>
+                    <IconButton onClick={showModalHandler(id)} size="large" color="primary">
+                      <VisibilityIcon />
+                    </IconButton>
+                  </Box>
+                </ItemImageOverlay>
               </ImageListItem>
             ))}
           </ImageList>

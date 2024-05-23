@@ -78,6 +78,3 @@ export const optionsRenovation = [
 export const optionsRegion = ["Тирасполь", "Бендеры", "Григориополь", "Рыбница", "Каменка", "Дубоссары"];
 
 export const optionsAdditionally = ["Гараж", "Погреб", "Баня", "Терраса", "Полисадник", "Огород"];
-
-export type OptionsCategoryValueKeys = (typeof optionsCategory)[number]["value"];
-//? export type OptionsTypeValueKeys = (typeof optionsTransactionType)[number]["value"];
