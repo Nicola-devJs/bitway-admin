@@ -1,4 +1,4 @@
-import { TextField, MenuItem } from "@mui/material";
+import { TextField } from "@mui/material";
 import { FieldFormType } from "../../../../shared/components/form/FormApp";
 import { optionsTypeStructure } from "../../constants/formFieldOptions";
 import { validateRequired } from "../../../../shared/helpers/fieldsValidations";

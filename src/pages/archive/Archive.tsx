@@ -1,9 +1,5 @@
-import { ObjectInfo } from "../../shared/components/objectInfo/ObjectInfo";
+// import { ObjectInfo } from "../../shared/components/objectInfo/ObjectInfo";
 
 export const Archive = () => {
-  return (
-    <div>
-      <ObjectInfo />
-    </div>
-  );
+  return <div>{/* <ObjectInfo  /> */}</div>;
 };

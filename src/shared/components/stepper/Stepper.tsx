@@ -5,20 +5,20 @@ import Step from "@mui/material/Step";
 import StepButton from "@mui/material/StepButton";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { FieldValues, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { FieldFormType, FormApp } from "../form/FormApp";
-import { OptionsCategoryValueKeys } from "../../../pages/publish/constants/formFieldOptions";
 import { resetUnnecessaryFieldsForm } from "../../helpers/filterObject";
 import { AnnouncementTypeFormFieldsName } from "../../../pages/publish/steps/components/FormFields";
 import { ObjectInfo } from "../objectInfo/ObjectInfo";
 import { LinkApp } from "../../UI/link/LinkApp";
+import { GenericTypeFields, IFormFields, OptionsCategoryValueKeys } from "../../interfaces/form/formFields";
 
-interface IProps<T extends FieldValues> {
+interface IProps<T extends IFormFields<GenericTypeFields>> {
   getSteps: (category: OptionsCategoryValueKeys) => { label: string; fields?: FieldFormType<T>[] }[];
   getFormData: (data: T) => void;
 }
 
-export const StepperApp = <T extends FieldValues>({ getSteps, getFormData }: IProps<T>) => {
+export const StepperApp = <T extends IFormFields<GenericTypeFields>>({ getSteps, getFormData }: IProps<T>) => {
   const [activeStep, setActiveStep] = React.useState(0);
   const { control, handleSubmit, getValues, reset } = useForm<T>();
   const [completed, setCompleted] = React.useState<{
@@ -43,7 +43,7 @@ export const StepperApp = <T extends FieldValues>({ getSteps, getFormData }: IPr
 
   const handleNext = () => {
     const newActiveStep =
-      isLastStep() && !allStepsCompleted() ? steps.findIndex((step, i) => !(i in completed)) : activeStep + 1;
+      isLastStep() && !allStepsCompleted() ? steps.findIndex((_, i) => !(i in completed)) : activeStep + 1;
     setActiveStep(newActiveStep);
   };
 

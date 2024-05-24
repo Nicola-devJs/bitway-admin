@@ -17,7 +17,7 @@ import { Button, IconButton } from "@mui/material";
 import { BackdropContext } from "../../hoc/BackdropProvider";
 import { ModalApp } from "../../UI/modal/ModalApp";
 
-export const PropertyCard: FC<IPropertyCard> = ({ heading, description, id, price }) => {
+export const PropertyCard: FC<IPropertyCard> = ({ id }) => {
   const [descriptionSnackbar, setDescriptionSnackbar] = useState("");
   const { toggleBackdrop } = useContext(BackdropContext);
   const [openModal, setOpenModal] = useState(false);
@@ -63,11 +63,11 @@ export const PropertyCard: FC<IPropertyCard> = ({ heading, description, id, pric
         <CardMedia component="img" alt="green iguana" height="250" image={image} />
         <CardContent sx={{ flexGrow: 1 }}>
           <Typography gutterBottom variant="h5" component="div">
-            {heading}
+            {"heading"}
           </Typography>
-          <Typography variant="body1">{price && `${price} ₽`}</Typography>
+          <Typography variant="body1">{"price" && `${"price"} ₽`}</Typography>
           <Typography variant="body2" color="text.secondary">
-            {description}
+            {"description"}
           </Typography>
         </CardContent>
         <CardActions>

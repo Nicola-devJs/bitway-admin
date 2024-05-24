@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { IPropertyCard, IResponseProperties } from "../../shared/interfaces/property";
+import { IFormFields, GenericTypeFields } from "../../shared/interfaces/form/formFields";
 
 export const propertiesApi = createApi({
   reducerPath: "propertiesApi",
@@ -15,15 +16,15 @@ export const propertiesApi = createApi({
     }),
     getPropertyById: builder.query<IPropertyCard, number>({
       query: (queryToId) => `properties/${queryToId}`,
-      providesTags: (result, error, id) => [{ type: "Properties", id }],
+      providesTags: (_, __, id) => [{ type: "Properties", id }],
     }),
-    addProperty: builder.mutation<IPropertyCard, Record<string, unknown>>({
+    addProperty: builder.mutation<IPropertyCard, IFormFields<GenericTypeFields>>({
       query: (body) => ({ url: "properties", body: { id: `${Date.now()}`, ...body }, method: "POST" }),
       invalidatesTags: [{ type: "Properties", id: "LIST" }],
     }),
     removeProperty: builder.mutation<IPropertyCard, string>({
       query: (id) => ({ url: `properties/${id}`, method: "DELETE" }),
-      invalidatesTags: (result, error, id) => [{ type: "Properties", id }],
+      invalidatesTags: (_, __, id) => [{ type: "Properties", id }],
     }),
   }),
 });

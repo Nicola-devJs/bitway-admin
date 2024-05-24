@@ -12,5 +12,7 @@ export const Property = () => {
     toggleBackdrop(isLoading);
   }, [isLoading]);
 
+  console.log(property);
+
   return <div>Property</div>;
 };

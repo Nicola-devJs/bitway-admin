@@ -1,4 +1,4 @@
-import { OptionsCategoryValueKeys } from "../constants/formFieldOptions";
+import { OptionsCategoryValueKeys } from "../../../shared/interfaces/form/formFields";
 import * as FormFields from "./components/FormFields";
 
 const AddressFields = (value: OptionsCategoryValueKeys) =>

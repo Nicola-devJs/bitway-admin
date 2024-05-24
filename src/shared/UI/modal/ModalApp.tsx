@@ -1,6 +1,6 @@
 import { Dialog, DialogTitle, DialogActions, DialogContent, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import React, { FC, ReactNode } from "react";
+import { FC, ReactNode } from "react";
 
 interface IProps {
   isOpen: boolean;
