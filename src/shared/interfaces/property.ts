@@ -1,8 +1,8 @@
-// import { IFormFields } from "./form/formFields";
+import { GenericTypeFields, IFormFields } from "./form/formFields";
 
-export interface IPropertyCard {
+export type IPropertyCard = {
   id: string;
-}
+} & IFormFields<GenericTypeFields>;
 
 export interface IResponseProperties {
   data: IPropertyCard[];

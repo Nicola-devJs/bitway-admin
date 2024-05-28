@@ -1,4 +1,4 @@
-export interface IAddressObject {
+export interface IAddressProperty {
   location: string;
   coordinates: [number, number];
 }

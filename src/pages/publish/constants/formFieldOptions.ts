@@ -3,7 +3,7 @@ export const optionsTransactionType = [
   { value: "buy", label: "Продажа" },
 ];
 
-export const optionsObjectType = [
+export const optionsPropertyType = [
   { value: "residential", label: "Жилая" },
   { value: "commercial", label: "Коммерческая" },
 ];

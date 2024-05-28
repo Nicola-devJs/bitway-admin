@@ -7,9 +7,9 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useForm } from "react-hook-form";
 import { FieldFormType, FormApp } from "../form/FormApp";
-import { resetUnnecessaryFieldsForm } from "../../helpers/filterObject";
+import { resetUnnecessaryFieldsForm } from "../../helpers/filterProperty";
 import { AnnouncementTypeFormFieldsName } from "../../../pages/publish/steps/components/FormFields";
-import { ObjectInfo } from "../objectInfo/ObjectInfo";
+import { PropertyInfo } from "../propertyInfo/PropertyInfo";
 import { LinkApp } from "../../UI/link/LinkApp";
 import { GenericTypeFields, IFormFields, OptionsCategoryValueKeys } from "../../interfaces/form/formFields";
 
@@ -112,7 +112,7 @@ export const StepperApp = <T extends IFormFields<GenericTypeFields>>({ getSteps,
               {steps[activeStep].fields ? (
                 <FormApp control={control} fields={steps[activeStep].fields as FieldFormType<T>[]} />
               ) : (
-                <ObjectInfo {...getValues()} />
+                <PropertyInfo {...getValues()} />
               )}
             </Box>
 

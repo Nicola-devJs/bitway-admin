@@ -1,37 +1,38 @@
+import { FieldFormType } from "../../../shared/components/form/FormApp";
 import { OptionsCategoryValueKeys } from "../../../shared/interfaces/form/formFields";
 import * as FormFields from "./components/FormFields";
 
 const AddressFields = (value: OptionsCategoryValueKeys) =>
   value === "apartment"
-    ? [...FormFields.AddressObjectFields, ...FormFields.AddressApartmentsFields]
-    : FormFields.AddressObjectFields;
+    ? [...FormFields.AddressPropertyFields, ...FormFields.AddressApartmentsFields]
+    : FormFields.AddressPropertyFields;
 
 const ParamsFields = (value: OptionsCategoryValueKeys) => {
   switch (value) {
     case "apartment":
-      return FormFields.ObjectParamsApartments;
+      return FormFields.PropertyParamsApartments;
     case "house":
-      return FormFields.ObjectParamsHouse;
+      return FormFields.PropertyParamsHouse;
     case "plot":
-      return FormFields.ObjectParamsPlot;
+      return FormFields.PropertyParamsPlot;
     case "garage":
-      return FormFields.ObjectParamsGarage;
+      return FormFields.PropertyParamsGarage;
   }
 };
 
 const FeaturesFields = (value: OptionsCategoryValueKeys) => {
   switch (value) {
     case "apartment":
-      return FormFields.ObjectFeaturesApartments;
+      return FormFields.PropertyFeaturesApartments;
 
     case "house":
-      return FormFields.ObjectFeaturesHouse;
+      return FormFields.PropertyFeaturesHouse;
 
     case "plot":
-      return FormFields.ObjectFeaturesPlot;
+      return FormFields.PropertyFeaturesPlot;
 
     case "garage":
-      return FormFields.ObjectFeaturesGarage;
+      return FormFields.PropertyFeaturesGarage;
   }
 };
 

@@ -1,6 +1,6 @@
 import { GenericTypeFields, IFormFields } from "../../../interfaces/form/formFields";
 
-export const ObjectPlot = (data: IFormFields<GenericTypeFields.Plot>) => {
+export const PropertyPlot = (data: IFormFields<GenericTypeFields.Plot>) => {
   console.log(data);
-  return <div>ObjectPlot</div>;
+  return <div>PropertyPlot</div>;
 };

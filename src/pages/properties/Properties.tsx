@@ -23,7 +23,7 @@ export const Properties = () => {
     <div ref={containerListRef}>
       <ListPropertyCards list={properties?.data} countColumns={countColumns} loading={isFetching} />
 
-      {properties && (
+      {properties && properties.pages ? (
         <Pagination
           count={properties.pages}
           page={page}
@@ -31,7 +31,7 @@ export const Properties = () => {
           color="primary"
           sx={{ mt: 3, display: "flex", justifyContent: "flex-end" }}
         />
-      )}
+      ) : null}
     </div>
   );
 };

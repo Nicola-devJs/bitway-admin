@@ -1,16 +1,21 @@
-import { IAddressApartments, IAddressObject } from "./addressFields";
-import { IObjectParamsApartments, IObjectParamsGarage, IObjectParamsHouse, IObjectParamsPlot } from "./paramsFields";
+import { IAddressApartments, IAddressProperty } from "./addressFields";
 import {
-  IObjectFeaturesApartments,
-  IObjectFeaturesGarage,
-  IObjectFeaturesHouse,
-  IObjectFeaturesPlot,
+  IPropertyParamsApartments,
+  IPropertyParamsGarage,
+  IPropertyParamsHouse,
+  IPropertyParamsPlot,
+} from "./paramsFields";
+import {
+  IPropertyFeaturesApartments,
+  IPropertyFeaturesGarage,
+  IPropertyFeaturesHouse,
+  IPropertyFeaturesPlot,
 } from "./featuresFields";
 import { optionsCategory } from "../../../pages/publish/constants/formFieldOptions";
 
 export interface IAnnouncementTypeFields {
   typeTransaction: string;
-  typeObject: string;
+  typeProperty: string;
   category: OptionsCategoryValueKeys;
 }
 export interface IDescriptionFields {
@@ -34,13 +39,13 @@ export enum GenericTypeFields {
 }
 
 type UniqueTypeFields<T> = T extends GenericTypeFields.Apartment
-  ? IAddressApartments & IObjectParamsApartments & IObjectFeaturesApartments
+  ? IAddressApartments & IPropertyParamsApartments & IPropertyFeaturesApartments
   : T extends GenericTypeFields.House
-  ? IAddressObject & IObjectParamsHouse & IObjectFeaturesHouse
+  ? IAddressProperty & IPropertyParamsHouse & IPropertyFeaturesHouse
   : T extends GenericTypeFields.Garage
-  ? IAddressObject & IObjectParamsGarage & IObjectFeaturesGarage
+  ? IAddressProperty & IPropertyParamsGarage & IPropertyFeaturesGarage
   : T extends GenericTypeFields.Plot
-  ? IAddressObject & IObjectParamsPlot & IObjectFeaturesPlot
+  ? IAddressProperty & IPropertyParamsPlot & IPropertyFeaturesPlot
   : never;
 
 export type IFormFields<T extends GenericTypeFields> = IAnnouncementTypeFields &

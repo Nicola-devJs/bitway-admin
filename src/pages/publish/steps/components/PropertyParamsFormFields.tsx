@@ -2,15 +2,15 @@ import { TextField } from "@mui/material";
 import { FieldFormType } from "../../../../shared/components/form/FormApp";
 import { validateRequired } from "../../../../shared/helpers/fieldsValidations";
 import {
-  IObjectParamsApartments,
-  IObjectParamsGarage,
-  IObjectParamsHouse,
-  IObjectParamsPlot,
+  IPropertyParamsApartments,
+  IPropertyParamsGarage,
+  IPropertyParamsHouse,
+  IPropertyParamsPlot,
 } from "../../../../shared/interfaces/form/paramsFields";
 import { optionsHouseStructure, optionsNumberRooms } from "../../constants/formFieldOptions";
 import { SelectApp } from "../../../../shared/UI/select/SelectApp";
 
-export const ObjectParamsApartments: FieldFormType<IObjectParamsApartments>[] = [
+export const PropertyParamsApartments: FieldFormType<IPropertyParamsApartments>[] = [
   {
     name: "numberRooms",
     inputForm: <SelectApp options={optionsNumberRooms} label="Кол-во комнат" />,
@@ -28,7 +28,7 @@ export const ObjectParamsApartments: FieldFormType<IObjectParamsApartments>[] = 
   },
 ];
 
-export const ObjectParamsHouse: FieldFormType<IObjectParamsHouse>[] = [
+export const PropertyParamsHouse: FieldFormType<IPropertyParamsHouse>[] = [
   {
     name: "generalArea",
     inputForm: <TextField label="Plot area" variant="outlined" type="number" />,
@@ -56,7 +56,7 @@ export const ObjectParamsHouse: FieldFormType<IObjectParamsHouse>[] = [
   },
 ];
 
-export const ObjectParamsPlot: FieldFormType<IObjectParamsPlot>[] = [
+export const PropertyParamsPlot: FieldFormType<IPropertyParamsPlot>[] = [
   {
     name: "generalArea",
     inputForm: <TextField label="Plot area" variant="outlined" type="number" />,
@@ -64,7 +64,7 @@ export const ObjectParamsPlot: FieldFormType<IObjectParamsPlot>[] = [
   },
 ];
 
-export const ObjectParamsGarage: FieldFormType<IObjectParamsGarage>[] = [
+export const PropertyParamsGarage: FieldFormType<IPropertyParamsGarage>[] = [
   {
     name: "generalArea",
     inputForm: <TextField label="Garage area" variant="outlined" type="number" />,

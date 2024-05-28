@@ -1,5 +1,5 @@
 import { TextField } from "@mui/material";
-import { optionsTransactionType, optionsCategory, optionsObjectType } from "../../constants/formFieldOptions";
+import { optionsTransactionType, optionsCategory, optionsPropertyType } from "../../constants/formFieldOptions";
 import {
   IAnnouncementTypeFields,
   IDescriptionFields,
@@ -9,19 +9,19 @@ import { validateRequired } from "../../../../shared/helpers/fieldsValidations";
 import { FieldFormType } from "../../../../shared/components/form/FormApp";
 import { TextareaApp } from "../../../../shared/UI/textarea/TextareaApp";
 import { SelectApp } from "../../../../shared/UI/select/SelectApp";
-export { AddressApartmentsFields, AddressObjectFields } from "./AddressFormFields";
+export { AddressApartmentsFields, AddressPropertyFields } from "./AddressFormFields";
 export {
-  ObjectParamsApartments,
-  ObjectParamsGarage,
-  ObjectParamsHouse,
-  ObjectParamsPlot,
-} from "./ObjectParamsFormFields";
+  PropertyParamsApartments,
+  PropertyParamsGarage,
+  PropertyParamsHouse,
+  PropertyParamsPlot,
+} from "./PropertyParamsFormFields";
 export {
-  ObjectFeaturesApartments,
-  ObjectFeaturesHouse,
-  ObjectFeaturesGarage,
-  ObjectFeaturesPlot,
-} from "./ObjectFeaturesFormFields";
+  PropertyFeaturesApartments,
+  PropertyFeaturesHouse,
+  PropertyFeaturesGarage,
+  PropertyFeaturesPlot,
+} from "./PropertyFeaturesFormFields";
 
 const AnnouncementTypeFormFields: FieldFormType<IAnnouncementTypeFields>[] = [
   {
@@ -30,8 +30,8 @@ const AnnouncementTypeFormFields: FieldFormType<IAnnouncementTypeFields>[] = [
     rules: validateRequired(),
   },
   {
-    name: "typeObject",
-    inputForm: <SelectApp options={optionsObjectType} label="Тип объекта" />,
+    name: "typeProperty",
+    inputForm: <SelectApp options={optionsPropertyType} label="Тип объекта" />,
     rules: validateRequired(),
   },
   {

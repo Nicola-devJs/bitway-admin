@@ -1,9 +1,9 @@
-export interface IObjectParamsApartments {
+export interface IPropertyParamsApartments {
   numberRooms: string;
   generalArea: string;
   livingArea: string;
 }
-export interface IObjectParamsHouse {
+export interface IPropertyParamsHouse {
   generalArea: string;
   livingArea: string;
   numberFloor: string;
@@ -11,10 +11,10 @@ export interface IObjectParamsHouse {
   typeStructure: string;
 }
 
-export interface IObjectParamsPlot {
+export interface IPropertyParamsPlot {
   generalArea: string;
 }
 
-export interface IObjectParamsGarage {
+export interface IPropertyParamsGarage {
   generalArea: string;
 }

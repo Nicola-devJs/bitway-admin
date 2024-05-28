@@ -2,11 +2,11 @@ import { TextField } from "@mui/material";
 import { FieldFormType } from "../../../../shared/components/form/FormApp";
 import { validateRequired } from "../../../../shared/helpers/fieldsValidations";
 import {
-  IObjectFeaturesApartments,
-  IObjectFeaturesGarage,
-  IObjectFeaturesHouse,
-  IObjectFeaturesMedia,
-  IObjectFeaturesPlot,
+  IPropertyFeaturesApartments,
+  IPropertyFeaturesGarage,
+  IPropertyFeaturesHouse,
+  IPropertyFeaturesMedia,
+  IPropertyFeaturesPlot,
 } from "../../../../shared/interfaces/form/featuresFields";
 import {
   optionsAdditionally,
@@ -23,7 +23,7 @@ import { SelectAutocompleteApp } from "../../../../shared/UI/selectAutocomplete/
 import { SelectApp } from "../../../../shared/UI/select/SelectApp";
 import { UploadApp } from "../../../../shared/UI/upload/UploadApp";
 
-const ObjectFeaturesFields: FieldFormType<IObjectFeaturesMedia>[] = [
+const PropertyFeaturesFields: FieldFormType<IPropertyFeaturesMedia>[] = [
   {
     name: "photos",
     inputForm: <UploadApp label="Photos" />,
@@ -36,7 +36,7 @@ const ObjectFeaturesFields: FieldFormType<IObjectFeaturesMedia>[] = [
   },
 ];
 
-export const ObjectFeaturesApartments: FieldFormType<IObjectFeaturesApartments>[] = [
+export const PropertyFeaturesApartments: FieldFormType<IPropertyFeaturesApartments>[] = [
   {
     name: "balconies",
     inputForm: <TextField label="Balconies" variant="outlined" type="number" />,
@@ -63,10 +63,10 @@ export const ObjectFeaturesApartments: FieldFormType<IObjectFeaturesApartments>[
     inputForm: <ToggleButtons list={optionsParking} label="Parking" color="primary" />,
     rules: validateRequired(),
   },
-  ...(ObjectFeaturesFields as any),
+  ...(PropertyFeaturesFields as any),
 ];
 
-export const ObjectFeaturesHouse: FieldFormType<IObjectFeaturesHouse>[] = [
+export const PropertyFeaturesHouse: FieldFormType<IPropertyFeaturesHouse>[] = [
   {
     name: "bathroom",
     inputForm: <TextField label="Bathroom" variant="outlined" type="number" />,
@@ -105,10 +105,10 @@ export const ObjectFeaturesHouse: FieldFormType<IObjectFeaturesHouse>[] = [
     rules: validateRequired(),
     defaultValue: [],
   },
-  ...(ObjectFeaturesFields as any),
+  ...(PropertyFeaturesFields as any),
 ];
 
-export const ObjectFeaturesPlot: FieldFormType<IObjectFeaturesPlot>[] = [
+export const PropertyFeaturesPlot: FieldFormType<IPropertyFeaturesPlot>[] = [
   {
     name: "sewerage",
     inputForm: <SelectApp options={optionsSewerage} label="Канализация" variant="outlined" />,
@@ -129,10 +129,10 @@ export const ObjectFeaturesPlot: FieldFormType<IObjectFeaturesPlot>[] = [
     inputForm: <ToggleButtons list={optionsHasAvailable} label="Электричество" color="primary" />,
     rules: validateRequired(),
   },
-  ...(ObjectFeaturesFields as any),
+  ...(PropertyFeaturesFields as any),
 ];
 
-export const ObjectFeaturesGarage: FieldFormType<IObjectFeaturesGarage>[] = [
+export const PropertyFeaturesGarage: FieldFormType<IPropertyFeaturesGarage>[] = [
   {
     name: "waterSupply",
     inputForm: <SelectApp options={optionsWaterSupply} label="Водоснабжение" variant="outlined" />,
@@ -143,5 +143,5 @@ export const ObjectFeaturesGarage: FieldFormType<IObjectFeaturesGarage>[] = [
     inputForm: <ToggleButtons list={optionsHasAvailable} label="Электричество" color="primary" />,
     rules: validateRequired(),
   },
-  ...(ObjectFeaturesFields as any),
+  ...(PropertyFeaturesFields as any),
 ];
