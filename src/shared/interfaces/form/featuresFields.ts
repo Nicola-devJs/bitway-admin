@@ -1,19 +1,11 @@
-export interface IPropertyFeaturesMedia {
-  photos: string[];
-  plans: string[];
-}
-
-export interface IPropertyFeaturesApartments extends IPropertyFeaturesMedia {
-  balconies: string;
-  bathroom: string;
+export interface IPropertyFeaturesApartments {
   renovation: string;
   parking: string;
   elevators: string;
-  entrance: string[];
+  entrance: string[] | string;
 }
 
-export interface IPropertyFeaturesHouse extends IPropertyFeaturesMedia {
-  bathroom: string;
+export interface IPropertyFeaturesHouse {
   sewerage: string;
   waterSupply: string;
   gas: string;
@@ -22,14 +14,14 @@ export interface IPropertyFeaturesHouse extends IPropertyFeaturesMedia {
   additionally: string[];
 }
 
-export interface IPropertyFeaturesPlot extends IPropertyFeaturesMedia {
+export interface IPropertyFeaturesPlot {
   sewerage: string;
   waterSupply: string;
   gas: string;
   electricity: string;
 }
 
-export interface IPropertyFeaturesGarage extends IPropertyFeaturesMedia {
+export interface IPropertyFeaturesGarage {
   waterSupply: string;
   electricity: string;
 }

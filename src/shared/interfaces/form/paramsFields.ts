@@ -2,8 +2,15 @@ export interface IPropertyParamsApartments {
   numberRooms: string;
   generalArea: string;
   livingArea: string;
+  floor: string;
+  floorHouse: string;
+  number: string;
+  typeStructure: string;
+  balconies: string;
+  bathroom: string;
 }
 export interface IPropertyParamsHouse {
+  bathroom: string;
   generalArea: string;
   livingArea: string;
   numberFloor: string;

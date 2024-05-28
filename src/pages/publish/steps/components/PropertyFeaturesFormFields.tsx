@@ -1,11 +1,9 @@
-import { TextField } from "@mui/material";
 import { FieldFormType } from "../../../../shared/components/form/FormApp";
 import { validateRequired } from "../../../../shared/helpers/fieldsValidations";
 import {
   IPropertyFeaturesApartments,
   IPropertyFeaturesGarage,
   IPropertyFeaturesHouse,
-  IPropertyFeaturesMedia,
   IPropertyFeaturesPlot,
 } from "../../../../shared/interfaces/form/featuresFields";
 import {
@@ -21,32 +19,8 @@ import {
 import { ToggleButtons } from "../../../../shared/UI/toggleButtons/ToggleButtons";
 import { SelectAutocompleteApp } from "../../../../shared/UI/selectAutocomplete/SelectAutocomplete";
 import { SelectApp } from "../../../../shared/UI/select/SelectApp";
-import { UploadApp } from "../../../../shared/UI/upload/UploadApp";
-
-const PropertyFeaturesFields: FieldFormType<IPropertyFeaturesMedia>[] = [
-  {
-    name: "photos",
-    inputForm: <UploadApp label="Photos" />,
-    rules: validateRequired(),
-  },
-  {
-    name: "plans",
-    inputForm: <UploadApp label="Plans" />,
-    rules: validateRequired(),
-  },
-];
 
 export const PropertyFeaturesApartments: FieldFormType<IPropertyFeaturesApartments>[] = [
-  {
-    name: "balconies",
-    inputForm: <TextField label="Balconies" variant="outlined" type="number" />,
-    rules: validateRequired(),
-  },
-  {
-    name: "bathroom",
-    inputForm: <TextField label="Bathroom" variant="outlined" type="number" />,
-    rules: validateRequired(),
-  },
   {
     name: "renovation",
     inputForm: <SelectApp options={optionsRenovation} label="Ремонт" variant="outlined" />,
@@ -63,15 +37,9 @@ export const PropertyFeaturesApartments: FieldFormType<IPropertyFeaturesApartmen
     inputForm: <ToggleButtons list={optionsParking} label="Parking" color="primary" />,
     rules: validateRequired(),
   },
-  ...(PropertyFeaturesFields as any),
 ];
 
 export const PropertyFeaturesHouse: FieldFormType<IPropertyFeaturesHouse>[] = [
-  {
-    name: "bathroom",
-    inputForm: <TextField label="Bathroom" variant="outlined" type="number" />,
-    rules: validateRequired(),
-  },
   {
     name: "sewerage",
     inputForm: <SelectApp options={optionsSewerage} label="Канализация" variant="outlined" />,
@@ -105,7 +73,6 @@ export const PropertyFeaturesHouse: FieldFormType<IPropertyFeaturesHouse>[] = [
     rules: validateRequired(),
     defaultValue: [],
   },
-  ...(PropertyFeaturesFields as any),
 ];
 
 export const PropertyFeaturesPlot: FieldFormType<IPropertyFeaturesPlot>[] = [
@@ -129,7 +96,6 @@ export const PropertyFeaturesPlot: FieldFormType<IPropertyFeaturesPlot>[] = [
     inputForm: <ToggleButtons list={optionsHasAvailable} label="Электричество" color="primary" />,
     rules: validateRequired(),
   },
-  ...(PropertyFeaturesFields as any),
 ];
 
 export const PropertyFeaturesGarage: FieldFormType<IPropertyFeaturesGarage>[] = [
@@ -143,5 +109,4 @@ export const PropertyFeaturesGarage: FieldFormType<IPropertyFeaturesGarage>[] = 
     inputForm: <ToggleButtons list={optionsHasAvailable} label="Электричество" color="primary" />,
     rules: validateRequired(),
   },
-  ...(PropertyFeaturesFields as any),
 ];

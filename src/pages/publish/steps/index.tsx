@@ -1,11 +1,5 @@
-import { FieldFormType } from "../../../shared/components/form/FormApp";
 import { OptionsCategoryValueKeys } from "../../../shared/interfaces/form/formFields";
 import * as FormFields from "./components/FormFields";
-
-const AddressFields = (value: OptionsCategoryValueKeys) =>
-  value === "apartment"
-    ? [...FormFields.AddressPropertyFields, ...FormFields.AddressApartmentsFields]
-    : FormFields.AddressPropertyFields;
 
 const ParamsFields = (value: OptionsCategoryValueKeys) => {
   switch (value) {
@@ -41,11 +35,11 @@ export const getFormSteps = (value: OptionsCategoryValueKeys) => [
     label: "Тип объявления",
     fields: FormFields.AnnouncementTypeFormFields,
   },
-  { label: "Адрес", fields: AddressFields(value) },
+  { label: "Адрес", fields: FormFields.AddressPropertyFields },
   { label: "Параметры", fields: ParamsFields(value) },
   { label: "Особенности", fields: FeaturesFields(value) },
 
   { label: "Описание", fields: FormFields.DescriptionFormFields },
-  { label: "Стоимость", fields: FormFields.PriceFormFields },
+  { label: "Дополнительная информация", fields: FormFields.PriceFormFields },
   { label: "Презентация" },
 ];

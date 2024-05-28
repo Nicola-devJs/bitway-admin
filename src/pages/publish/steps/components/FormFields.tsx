@@ -9,7 +9,8 @@ import { validateRequired } from "../../../../shared/helpers/fieldsValidations";
 import { FieldFormType } from "../../../../shared/components/form/FormApp";
 import { TextareaApp } from "../../../../shared/UI/textarea/TextareaApp";
 import { SelectApp } from "../../../../shared/UI/select/SelectApp";
-export { AddressApartmentsFields, AddressPropertyFields } from "./AddressFormFields";
+import { UploadApp } from "../../../../shared/UI/upload/UploadApp";
+export { AddressPropertyFields } from "./AddressFormFields";
 export {
   PropertyParamsApartments,
   PropertyParamsGarage,
@@ -44,6 +45,14 @@ const AnnouncementTypeFormFields: FieldFormType<IAnnouncementTypeFields>[] = [
 const DescriptionFormFields: FieldFormType<IDescriptionFields>[] = [
   { name: "heading", inputForm: <TextField label="Heading" variant="outlined" />, rules: validateRequired() },
   { name: "description", inputForm: <TextareaApp placeholder="Description" /> },
+  {
+    name: "photos",
+    inputForm: <UploadApp label="Photos" />,
+  },
+  {
+    name: "plans",
+    inputForm: <UploadApp label="Plans" />,
+  },
 ];
 
 const PriceFormFields: FieldFormType<IPriceFields>[] = [

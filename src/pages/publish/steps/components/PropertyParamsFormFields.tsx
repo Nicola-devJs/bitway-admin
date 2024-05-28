@@ -7,10 +7,35 @@ import {
   IPropertyParamsHouse,
   IPropertyParamsPlot,
 } from "../../../../shared/interfaces/form/paramsFields";
-import { optionsHouseStructure, optionsNumberRooms } from "../../constants/formFieldOptions";
+import { optionsHouseStructure, optionsNumberRooms, optionsTypeStructure } from "../../constants/formFieldOptions";
 import { SelectApp } from "../../../../shared/UI/select/SelectApp";
 
 export const PropertyParamsApartments: FieldFormType<IPropertyParamsApartments>[] = [
+  {
+    name: "floor",
+    inputForm: <TextField label="Floor" variant="outlined" type="number" />,
+    rules: {
+      validate: (value, fields) => {
+        return +value > +fields.floorHouse ? "Этаж не может быть больше этажности дома" : true;
+      },
+      ...validateRequired(),
+    },
+  },
+  {
+    name: "floorHouse",
+    inputForm: <TextField label="Floor house" variant="outlined" type="number" />,
+    rules: validateRequired(),
+  },
+  {
+    name: "number",
+    inputForm: <TextField label="Number" variant="outlined" type="number" />,
+    rules: validateRequired(),
+  },
+  {
+    name: "typeStructure",
+    inputForm: <SelectApp options={optionsTypeStructure} label="Тип здания" />,
+    rules: validateRequired(),
+  },
   {
     name: "numberRooms",
     inputForm: <SelectApp options={optionsNumberRooms} label="Кол-во комнат" />,
@@ -24,6 +49,16 @@ export const PropertyParamsApartments: FieldFormType<IPropertyParamsApartments>[
   {
     name: "livingArea",
     inputForm: <TextField label="Residential area" variant="outlined" type="number" />,
+    rules: validateRequired(),
+  },
+  {
+    name: "balconies",
+    inputForm: <TextField label="Balconies" variant="outlined" type="number" />,
+    rules: validateRequired(),
+  },
+  {
+    name: "bathroom",
+    inputForm: <TextField label="Bathroom" variant="outlined" type="number" />,
     rules: validateRequired(),
   },
 ];
@@ -52,6 +87,11 @@ export const PropertyParamsHouse: FieldFormType<IPropertyParamsHouse>[] = [
   {
     name: "typeStructure",
     inputForm: <SelectApp options={optionsHouseStructure} label="Тип строения" />,
+    rules: validateRequired(),
+  },
+  {
+    name: "bathroom",
+    inputForm: <TextField label="Bathroom" variant="outlined" type="number" />,
     rules: validateRequired(),
   },
 ];
