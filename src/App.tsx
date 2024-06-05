@@ -1,13 +1,35 @@
+import { useEffect, useContext } from "react";
 import { RouterProvider } from "react-router-dom";
 import { router } from "./pages/router";
-import { BackdropProvider } from "./shared/hoc/BackdropProvider";
+import { useLazyGetAuthMeQuery } from "./redux/services/user";
+import { BackdropContext } from "./shared/hoc/BackdropProvider";
+import { getCookie } from "./shared/helpers/cookie";
 
 function App() {
-  return (
-    <BackdropProvider>
-      <RouterProvider router={router} />
-    </BackdropProvider>
-  );
+  const [fetcherAuthMe] = useLazyGetAuthMeQuery();
+  const { toggleBackdrop } = useContext(BackdropContext);
+
+  useEffect(() => {
+    toggleBackdrop(true);
+    const token = getCookie("token");
+
+    if (!token) {
+      window.location.replace(import.meta.env.VITE_REDIRECT_HOME);
+      return;
+    }
+
+    fetcherAuthMe(token)
+      .unwrap()
+      .then((data) => console.log("fullfield", data))
+      .catch(() => {
+        window.location.replace(import.meta.env.VITE_REDIRECT_HOME);
+      })
+      .finally(() => {
+        toggleBackdrop(false);
+      });
+  }, []);
+
+  return <RouterProvider router={router} />;
 }
 
 export default App;

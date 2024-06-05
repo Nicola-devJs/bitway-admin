@@ -1,15 +1,13 @@
 import { GenericTypeFields, IFormFields } from "./form/formFields";
 
 export type IPropertyCard = {
-  id: string;
+  _id: string;
+  favourite: boolean;
 } & IFormFields<GenericTypeFields>;
 
 export interface IResponseProperties {
-  data: IPropertyCard[];
-  first: number;
-  last: number;
-  items: number;
-  pages: number;
-  next: number;
-  prev: number;
+  objects: IPropertyCard[];
+  page: number;
+  amountPages: number;
+  limit: number;
 }

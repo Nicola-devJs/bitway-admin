@@ -3,42 +3,41 @@ import { PropertyCard } from "../card/PropertyCard";
 import { IPropertyCard } from "../../interfaces/property";
 import { SkeletonCard } from "../skeleton/SkeletonApp";
 import { EmptyApp } from "../empty/EmptyApp";
+import { styled } from "@mui/material";
 
 interface IProps {
   list: IPropertyCard[] | undefined;
-  countColumns: number;
   loading: boolean;
+  error?: unknown;
 }
 
-const styles = (countColumns: number): React.CSSProperties => ({
-  width: "100%",
+const StyledList = styled("div")({
   display: "grid",
-  gridTemplateColumns: `repeat(${countColumns}, 1fr)`,
-  gridTemplateRows: "auto",
-  gridGap: "1.346vw",
+  grid: "auto / repeat(auto-fill, minmax(300px, 1.5fr))",
+  gap: 10,
 });
 
-export const ListPropertyCards = ({ list, countColumns, loading }: IProps) => {
+export const ListPropertyCards = ({ list, loading, error }: IProps) => {
   return (
     <>
       {loading ? (
-        <div style={styles(countColumns)}>
-          {Array(countColumns * 2)
+        <StyledList>
+          {Array(10)
             .fill(" ")
             .map((_, id) => (
               <SkeletonCard key={id} />
             ))}
-        </div>
+        </StyledList>
       ) : !list ? (
-        <div>404</div>
+        <div>{error.data.message}</div>
       ) : list.length === 0 ? (
         <EmptyApp />
       ) : (
-        <div style={styles(countColumns)}>
+        <StyledList>
           {list.map((item, id) => (
             <PropertyCard key={id} {...item} />
           ))}
-        </div>
+        </StyledList>
       )}
     </>
   );

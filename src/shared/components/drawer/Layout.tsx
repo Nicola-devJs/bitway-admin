@@ -23,8 +23,10 @@ import { DrawerApp, DrawerHeader, AppBar } from "./Components";
 import { navMenu } from "../../constants/menu";
 import { Outlet } from "react-router-dom";
 import { LinkApp } from "../../UI/link/LinkApp";
+import { useAppSelector } from "../../../redux/hooks";
 
 export function Layout() {
+  const { userData: user } = useAppSelector((state) => state.user);
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
 
@@ -54,11 +56,11 @@ export function Layout() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
-            Admin dashboard
+            {user?.firstName} {user?.lastName}
           </Typography>
           <LinkApp to={import.meta.env.VITE_REDIRECT_AUTH}>
             <Button variant="outlined" sx={{ color: "white", borderColor: "white" }}>
-              Logout
+              Выйти
             </Button>
           </LinkApp>
         </Toolbar>
