@@ -10,6 +10,8 @@ export const Properties = () => {
   const [page, setPage] = useState(1);
   const { data: properties, isFetching, error } = useGetPropertiesAllQuery();
 
+  console.log(properties);
+
   return (
     <div ref={containerListRef}>
       <ListPropertyCards list={properties?.objects} loading={isFetching} error={error} />

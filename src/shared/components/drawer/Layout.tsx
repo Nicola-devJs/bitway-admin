@@ -24,11 +24,14 @@ import { navMenu } from "../../constants/menu";
 import { Outlet } from "react-router-dom";
 import { LinkApp } from "../../UI/link/LinkApp";
 import { useAppSelector } from "../../../redux/hooks";
+import { deleteCookie } from "../../helpers/cookie";
+import { ModalApp } from "../../UI/modal/ModalApp";
 
 export function Layout() {
   const { userData: user } = useAppSelector((state) => state.user);
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
+  const [showModal, setShowModal] = React.useState(false);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -38,77 +41,91 @@ export function Layout() {
     setOpen(false);
   };
 
+  const handleLogout = () => {
+    deleteCookie("token");
+    window.location.replace(import.meta.env.VITE_REDIRECT_AUTH);
+  };
+
+  const handleShowModal = () => {
+    setShowModal(true);
+  };
+
+  const handleHideModal = () => {
+    setShowModal(false);
+  };
+
   return (
-    <Box sx={{ display: "flex" }}>
-      <CssBaseline />
-      <AppBar position="fixed" open={open}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{
-              marginRight: 5,
-              ...(open && { display: "none" }),
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
-            {user?.firstName} {user?.lastName}
-          </Typography>
-          <LinkApp to={import.meta.env.VITE_REDIRECT_AUTH}>
-            <Button variant="outlined" sx={{ color: "white", borderColor: "white" }}>
-              Выйти
-            </Button>
-          </LinkApp>
-        </Toolbar>
-      </AppBar>
-      <DrawerApp variant="permanent" open={open}>
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "rtl" ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-          </IconButton>
-        </DrawerHeader>
-        <Divider />
-        <List sx={{ flexGrow: 1 }}>
-          {navMenu.map((menuItem) => (
-            <ListItem disablePadding sx={{ display: "block" }} key={menuItem.path}>
-              <LinkApp to={menuItem.path} style={{ color: "inherit" }}>
-                <ListItemButton
-                  sx={{
-                    minHeight: 48,
-                    justifyContent: open ? "initial" : "center",
-                    px: 2.5,
-                  }}
-                >
-                  <ListItemIcon
+    <>
+      <Box sx={{ display: "flex" }}>
+        <CssBaseline />
+        <AppBar position="fixed" open={open}>
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              sx={{
+                marginRight: 5,
+                ...(open && { display: "none" }),
+              }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
+              {user?.firstName} {user?.lastName}
+            </Typography>
+            <LinkApp to={import.meta.env.VITE_REDIRECT_HOME}>
+              <Button variant="outlined" sx={{ color: "white", borderColor: "white" }}>
+                Вернуться на сайт
+              </Button>
+            </LinkApp>
+          </Toolbar>
+        </AppBar>
+        <DrawerApp variant="permanent" open={open}>
+          <DrawerHeader>
+            <IconButton onClick={handleDrawerClose}>
+              {theme.direction === "rtl" ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+            </IconButton>
+          </DrawerHeader>
+          <Divider />
+          <List sx={{ flexGrow: 1 }}>
+            {navMenu.map((menuItem) => (
+              <ListItem disablePadding sx={{ display: "block" }} key={menuItem.path}>
+                <LinkApp to={menuItem.path} style={{ color: "inherit" }}>
+                  <ListItemButton
                     sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : "auto",
-                      justifyContent: "center",
+                      minHeight: 48,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
                     }}
                   >
-                    {menuItem.icon}
-                  </ListItemIcon>
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
+                      }}
+                    >
+                      {menuItem.icon}
+                    </ListItemIcon>
 
-                  <ListItemText primary={menuItem.title} sx={{ opacity: open ? 1 : 0 }} />
-                </ListItemButton>
-              </LinkApp>
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          <ListItem disablePadding sx={{ display: "block" }}>
-            <LinkApp to={import.meta.env.VITE_REDIRECT_HOME} style={{ color: "inherit" }}>
+                    <ListItemText primary={menuItem.title} sx={{ opacity: open ? 1 : 0 }} />
+                  </ListItemButton>
+                </LinkApp>
+              </ListItem>
+            ))}
+          </List>
+          <Divider />
+          <List>
+            <ListItem disablePadding sx={{ display: "block" }}>
               <ListItemButton
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? "initial" : "center",
                   px: 2.5,
                 }}
+                onClick={handleShowModal}
               >
                 <ListItemIcon
                   sx={{
@@ -120,16 +137,31 @@ export function Layout() {
                   <ExitToAppIcon />
                 </ListItemIcon>
 
-                <ListItemText primary={"Вернуться"} sx={{ opacity: open ? 1 : 0 }} />
+                <ListItemText primary={"Выйти"} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
-            </LinkApp>
-          </ListItem>
-        </List>
-      </DrawerApp>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <DrawerHeader />
-        <Outlet />
+            </ListItem>
+          </List>
+        </DrawerApp>
+        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+          <DrawerHeader />
+          <Outlet />
+        </Box>
       </Box>
-    </Box>
+      <ModalApp
+        isOpen={showModal}
+        handelCloseModal={handleHideModal}
+        title={"Вы действительно хотите выйти?"}
+        actions={
+          <>
+            <Button onClick={handleLogout} color="primary">
+              Выйти
+            </Button>
+            <Button onClick={handleHideModal} color="secondary">
+              Отмена
+            </Button>
+          </>
+        }
+      />
+    </>
   );
 }

@@ -12,6 +12,7 @@ import { AnnouncementTypeFormFieldsName } from "../../../pages/publish/steps/com
 import { PropertyInfo } from "../propertyInfo/PropertyInfo";
 import { LinkApp } from "../../UI/link/LinkApp";
 import { GenericTypeFields, IFormFields, OptionsCategoryValueKeys } from "../../interfaces/form/formFields";
+import { StepContent } from "@mui/material";
 
 interface IProps<T extends IFormFields<GenericTypeFields>> {
   getSteps: (category: OptionsCategoryValueKeys) => { label: string; fields?: FieldFormType<T>[] }[];
@@ -83,54 +84,55 @@ export const StepperApp = <T extends IFormFields<GenericTypeFields>>({ getSteps,
 
   return (
     <Box sx={{ width: "100%" }}>
-      <Stepper activeStep={activeStep}>
+      <Stepper activeStep={activeStep} orientation="vertical">
         {steps.map((step, index) => (
           <Step key={step.label} completed={completed[index]}>
             <StepButton color="inherit" onClick={handleStep(index)}>
               {step.label}
             </StepButton>
+
+            <StepContent>
+              {allStepsCompleted() ? (
+                <React.Fragment>
+                  <Typography sx={{ mt: 2, mb: 1 }} variant="h3">
+                    Объект успешно опубликован
+                  </Typography>
+                  <Box sx={{ display: "flex", flexDirection: "row", pt: 2, gap: 3 }}>
+                    <Box sx={{ flex: "1 1 auto" }} />
+                    <LinkApp to="/">
+                      <Button>Вернуться в мои объекты</Button>
+                    </LinkApp>
+                    <Button onClick={handleReset}>Опубликовать еще</Button>
+                  </Box>
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  <Box sx={{ mt: 2, mb: 1, py: 2 }}>
+                    {step.fields ? (
+                      <FormApp control={control} fields={step.fields as FieldFormType<T>[]} />
+                    ) : (
+                      <PropertyInfo {...getValues()} />
+                    )}
+                  </Box>
+
+                  <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                    <Button color="inherit" disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 1 }}>
+                      Назад
+                    </Button>
+                    <Box sx={{ flex: "1 1 auto" }} />
+
+                    {activeStep !== steps.length && (
+                      <Button onClick={handleSubmit(handleComplete)} type="submit">
+                        {completedSteps() === totalSteps(1) ? "Отправить" : "Дальше"}
+                      </Button>
+                    )}
+                  </Box>
+                </React.Fragment>
+              )}
+            </StepContent>
           </Step>
         ))}
       </Stepper>
-      <div>
-        {allStepsCompleted() ? (
-          <React.Fragment>
-            <Typography sx={{ mt: 2, mb: 1 }} variant="h3">
-              Объект успешно опубликован
-            </Typography>
-            <Box sx={{ display: "flex", flexDirection: "row", pt: 2, gap: 3 }}>
-              <Box sx={{ flex: "1 1 auto" }} />
-              <LinkApp to="/">
-                <Button>Вернуться в мои объекты</Button>
-              </LinkApp>
-              <Button onClick={handleReset}>Опубликовать еще</Button>
-            </Box>
-          </React.Fragment>
-        ) : (
-          <React.Fragment>
-            <Box sx={{ mt: 2, mb: 1, py: 2 }}>
-              {steps[activeStep].fields ? (
-                <FormApp control={control} fields={steps[activeStep].fields as FieldFormType<T>[]} />
-              ) : (
-                <PropertyInfo {...getValues()} />
-              )}
-            </Box>
-
-            <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-              <Button color="inherit" disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 1 }}>
-                Назад
-              </Button>
-              <Box sx={{ flex: "1 1 auto" }} />
-
-              {activeStep !== steps.length && (
-                <Button onClick={handleSubmit(handleComplete)} type="submit">
-                  {completedSteps() === totalSteps(1) ? "Отправить" : "Дальше"}
-                </Button>
-              )}
-            </Box>
-          </React.Fragment>
-        )}
-      </div>
     </Box>
   );
 };

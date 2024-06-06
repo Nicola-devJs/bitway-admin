@@ -48,10 +48,12 @@ const DescriptionFormFields: FieldFormType<IDescriptionFields>[] = [
   {
     name: "photos",
     inputForm: <UploadApp label="Photos" />,
+    defaultValue: [],
   },
   {
     name: "plans",
     inputForm: <UploadApp label="Plans" />,
+    defaultValue: [],
   },
 ];
 

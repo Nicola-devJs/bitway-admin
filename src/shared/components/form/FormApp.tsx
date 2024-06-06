@@ -1,4 +1,4 @@
-import { Grid, TextFieldProps } from "@mui/material";
+import { TextFieldProps, styled } from "@mui/material";
 import React from "react";
 import { Controller, FieldValues, Path, RegisterOptions, Control } from "react-hook-form";
 
@@ -17,7 +17,7 @@ interface IProps<T extends FieldValues> {
 export const FormApp = <T extends FieldValues>({ fields, control }: IProps<T>) => {
   return (
     <>
-      <Grid container sx={{ flexDirection: "column" }} rowGap={2} component={"form"}>
+      <StyledForm>
         {fields?.map((field) => (
           <Controller
             control={control}
@@ -35,7 +35,14 @@ export const FormApp = <T extends FieldValues>({ fields, control }: IProps<T>) =
             }
           />
         ))}
-      </Grid>
+      </StyledForm>
     </>
   );
 };
+
+const StyledForm = styled("form")({
+  display: "grid",
+  gridTemplateColumns: "1fr",
+  gap: 20,
+  alignItems: "end",
+});

@@ -20,7 +20,6 @@ function App() {
 
     fetcherAuthMe(token)
       .unwrap()
-      .then((data) => console.log("fullfield", data))
       .catch(() => {
         window.location.replace(import.meta.env.VITE_REDIRECT_HOME);
       })

@@ -14,7 +14,7 @@ export const router = createBrowserRouter([
     children: [
       { element: <Properties />, index: true },
       { path: NAVMENU.PUBLIC, element: <Publish /> },
-      { path: NAVMENU.MODERATION, element: <Moderation /> },
+      // { path: NAVMENU.MODERATION, element: <Moderation /> },
       { path: NAVMENU.ARCHIVE, element: <Archive /> },
       { path: `${NAVMENU.PROPERTY}:id`, element: <Property /> },
     ],

@@ -6,13 +6,12 @@ import { BackdropContext } from "../../shared/hoc/BackdropProvider";
 export const Property = () => {
   const { toggleBackdrop } = useContext(BackdropContext);
   const { id } = useParams<{ id: string }>();
-  const { data: property, isLoading } = useGetPropertyByIdQuery(Number(id));
+  console.log(id);
+  const { data: property, isLoading } = useGetPropertyByIdQuery(id);
 
   useEffect(() => {
     toggleBackdrop(isLoading);
   }, [isLoading]);
-
-  console.log(property);
 
   return <div>Property</div>;
 };

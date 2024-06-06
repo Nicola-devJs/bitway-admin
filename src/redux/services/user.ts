@@ -10,7 +10,7 @@ export const userApi = createApi({
   endpoints: (builder) => ({
     getAuthMe: builder.query<IUserResponse, string>({
       query: (token) => ({
-        url: "auth/me/",
+        url: "/auth/me/",
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,

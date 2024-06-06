@@ -1,3 +1,3 @@
 export const Moderation = () => {
-  return <div>Moderation</div>;
+  return <div></div>;
 };

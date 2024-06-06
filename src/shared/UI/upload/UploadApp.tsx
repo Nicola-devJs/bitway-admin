@@ -2,13 +2,12 @@ import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { Box, CircularProgress, IconButton, ImageList, ImageListItem, Typography } from "@mui/material";
+import { Box, CircularProgress, IconButton, ImageListItem, Typography } from "@mui/material";
 import { ModalApp } from "../modal/ModalApp";
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { useScreenExtension } from "../../hooks/screenExtension";
-import { MediaExtension } from "../../constants/extensions";
+import { useUploadFilesMutation } from "../../../redux/services/files";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -40,6 +39,12 @@ const ItemImageOverlay = styled(Box)({
   },
 });
 
+const StyledListImages = styled("div")({
+  display: "grid",
+  grid: "auto / repeat(auto-fill, minmax(200px, 1fr))",
+  gap: 10,
+});
+
 interface IProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange"> {
   label?: string;
   helperText?: string;
@@ -51,16 +56,35 @@ export const UploadApp = React.forwardRef<HTMLInputElement, IProps>(
   ({ error, helperText, label, onChange, value, ...props }, ref) => {
     const [openModal, setOpenModal] = React.useState(false);
     const [activeStepImage, setActiveStepImage] = React.useState(0);
-    const [minLaptopExtension] = useScreenExtension([{ screenExtension: MediaExtension.Laptop }]);
-    const loading = false;
+    const [fetcherUploadFiles, { isLoading }] = useUploadFilesMutation();
 
-    const changeHandler: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-      if (!e.target.files) {
+    const getUrls = async (files: File[]): Promise<Array<string>> => {
+      const urls = [];
+      for (const file of files) {
+        const formData = new FormData();
+
+        formData.append("file", file);
+        try {
+          const data = await fetcherUploadFiles(formData).unwrap();
+          urls.push(`${import.meta.env.VITE_BACKEND_API}${data.url}`);
+        } catch (err) {
+          return [];
+        }
+      }
+
+      return urls;
+    };
+
+    const changeHandler: React.ChangeEventHandler<HTMLInputElement> = async (e) => {
+      const files = e.target.files;
+
+      if (!files) {
         return;
       }
-      const urlImages = Array.from(e.target.files).map((file) => URL.createObjectURL(file));
 
-      onChange?.(urlImages);
+      const dataUrls = await getUrls(Array.from(files));
+
+      onChange?.(dataUrls);
     };
 
     const showModalHandler = (idImg: number) => () => {
@@ -89,6 +113,8 @@ export const UploadApp = React.forwardRef<HTMLInputElement, IProps>(
       onChange?.(filteredImages);
     };
 
+    console.log(isLoading);
+
     return (
       <Box>
         {label && (
@@ -103,7 +129,7 @@ export const UploadApp = React.forwardRef<HTMLInputElement, IProps>(
             variant="contained"
             fullWidth
             startIcon={<CloudUploadIcon />}
-            disabled={loading}
+            disabled={isLoading}
           >
             Upload file
             <VisuallyHiddenInput
@@ -115,7 +141,7 @@ export const UploadApp = React.forwardRef<HTMLInputElement, IProps>(
               {...props}
             />
           </Button>
-          {loading && (
+          {isLoading && (
             <CircularProgress
               size={24}
               sx={{
@@ -134,9 +160,9 @@ export const UploadApp = React.forwardRef<HTMLInputElement, IProps>(
           </Typography>
         )}
         {Array.isArray(value) && (
-          <ImageList cols={4} sx={{ mt: 3 }}>
+          <StyledListImages>
             {value.map((url: string, id) => (
-              <ImageListItem key={url} sx={{ minHeight: minLaptopExtension ? 250 : "auto" }}>
+              <ImageListItem key={url}>
                 <img src={url} alt={`image-${url}`} loading="lazy" />
                 <ItemImageOverlay>
                   <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -150,7 +176,7 @@ export const UploadApp = React.forwardRef<HTMLInputElement, IProps>(
                 </ItemImageOverlay>
               </ImageListItem>
             ))}
-          </ImageList>
+          </StyledListImages>
         )}
         <ModalApp
           isOpen={openModal}

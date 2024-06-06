@@ -4,6 +4,7 @@ import { IPropertyCard } from "../../interfaces/property";
 import { SkeletonCard } from "../skeleton/SkeletonApp";
 import { EmptyApp } from "../empty/EmptyApp";
 import { styled } from "@mui/material";
+import { ErrorApp } from "../error/ErrorApp";
 
 interface IProps {
   list: IPropertyCard[] | undefined;
@@ -29,7 +30,7 @@ export const ListPropertyCards = ({ list, loading, error }: IProps) => {
             ))}
         </StyledList>
       ) : !list ? (
-        <div>{error.data.message}</div>
+        <ErrorApp error={error} />
       ) : list.length === 0 ? (
         <EmptyApp />
       ) : (
