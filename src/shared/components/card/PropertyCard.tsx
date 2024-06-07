@@ -9,101 +9,48 @@ import ReadMoreIcon from "@mui/icons-material/ReadMore";
 import image from "../../../assets/images/r-architecture-2gDwlIim3Uw-unsplash.jpg";
 import { LinkApp } from "../../UI/link/LinkApp";
 import { NAVMENU } from "../../constants/menu";
-import { SnackbarApp } from "../../UI/snackbar/Snackbar";
-import { FC, useContext, useEffect, useState } from "react";
+import { FC } from "react";
 import { IPropertyCard } from "../../interfaces/property";
-import { useRemovePropertyMutation } from "../../../redux/services/properties";
-import { Button, IconButton } from "@mui/material";
-import { BackdropContext } from "../../hoc/BackdropProvider";
-import { ModalApp } from "../../UI/modal/ModalApp";
+import { IconButton } from "@mui/material";
 
-export const PropertyCard: FC<IPropertyCard> = ({ _id, heading, description, price }) => {
-  const [descriptionSnackbar, setDescriptionSnackbar] = useState("");
-  const { toggleBackdrop } = useContext(BackdropContext);
-  const [openModal, setOpenModal] = useState(false);
-  const [removePropertyAction, { isLoading }] = useRemovePropertyMutation();
-  const sharePropertyLink = `${NAVMENU.PROPERTY}${_id}`;
+interface IProps {
+  property: IPropertyCard;
+  showModal: (id: string) => void;
+  setShareUrlProperty: (id: string) => void;
+}
 
-  useEffect(() => {
-    toggleBackdrop(isLoading);
-  }, [isLoading]);
-
-  const writeTextHandler: React.MouseEventHandler = () => {
-    navigator.clipboard
-      .writeText(window.location.href + sharePropertyLink)
-      .then(() => setDescriptionSnackbar("Ссылка на объект недвижимости скопирована"))
-      .catch(() => setDescriptionSnackbar("Упс, ссылка не скопировалась, попробуйте еще раз"));
-  };
-
-  const clearSnackbar = () => {
-    setDescriptionSnackbar("");
-  };
-
-  const showModalHandler = () => {
-    setOpenModal(true);
-  };
-
-  const hideModalHandler = () => {
-    setOpenModal(false);
-  };
-
-  const deletePropertyCard: React.MouseEventHandler = () => {
-    removePropertyAction(_id)
-      .unwrap()
-      .then(() => {
-        hideModalHandler();
-        setDescriptionSnackbar("Вы успешно удалили объект!");
-      })
-      .catch(() => setDescriptionSnackbar("Упс, похоже что объект не удалился ("));
-  };
-
+export const PropertyCard: FC<IProps> = ({ property, showModal, setShareUrlProperty }) => {
   return (
     <>
       <Card sx={{ display: "flex", flexDirection: "column" }}>
-        <CardMedia component="img" alt="green iguana" height="250" image={image} />
+        <CardMedia component="img" alt="green iguana" height="250" image={property.photos[0] || image} />
         <CardContent sx={{ flexGrow: 1 }}>
           <Typography gutterBottom variant="h5" component="div">
-            {heading}
+            {property.heading}
           </Typography>
-          <Typography variant="body1">{`${price} ₽`}</Typography>
+          <Typography variant="body1">{`${property.price} ₽`}</Typography>
           <Typography variant="body2" color="text.secondary">
-            {description}
+            {property.description}
           </Typography>
         </CardContent>
         <CardActions>
-          <IconButton aria-label="share" onClick={writeTextHandler}>
+          <IconButton aria-label="share" onClick={() => setShareUrlProperty(property._id)}>
             <ShareIcon />
           </IconButton>
-          <IconButton aria-label="delete" onClick={showModalHandler}>
+          <IconButton aria-label="delete" onClick={() => showModal(property._id)}>
             <DeleteIcon />
           </IconButton>
 
           <IconButton aria-label="delete" style={{ marginLeft: "auto" }}>
             <LinkApp
-              to={sharePropertyLink}
+              to={`${NAVMENU.PROPERTY}${property._id}`}
               style={{ color: "inherit", display: "flex", alignItems: "center", gap: 10 }}
             >
-              More <ReadMoreIcon />
+              Детали <ReadMoreIcon />
             </LinkApp>
           </IconButton>
         </CardActions>
       </Card>
-      <ModalApp
-        isOpen={openModal}
-        handelCloseModal={hideModalHandler}
-        title={"Вы действительно хотите удалить объект?"}
-        actions={
-          <>
-            <Button onClick={deletePropertyCard} color="primary" autoFocus>
-              Удалить
-            </Button>
-            <Button onClick={hideModalHandler} color="secondary">
-              Отмена
-            </Button>
-          </>
-        }
-      />
-      <SnackbarApp isOpen={!!descriptionSnackbar} handleClose={clearSnackbar} description={descriptionSnackbar} />
     </>
   );
 };

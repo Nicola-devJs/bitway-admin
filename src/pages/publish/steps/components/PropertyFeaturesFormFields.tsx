@@ -28,13 +28,18 @@ export const PropertyFeaturesApartments: FieldFormType<IPropertyFeaturesApartmen
   },
   {
     name: "entrance",
-    inputForm: <ToggleButtons list={optionsEntrance} label="Entrance" color="primary" multiple />,
+    inputForm: <ToggleButtons list={optionsEntrance} label="Подъезд" color="primary" multiple />,
     rules: validateRequired(),
     defaultValue: [],
   },
   {
     name: "parking",
-    inputForm: <ToggleButtons list={optionsParking} label="Parking" color="primary" />,
+    inputForm: <ToggleButtons list={optionsParking} label="Парковка" color="primary" />,
+    rules: validateRequired(),
+  },
+  {
+    name: "elevators",
+    inputForm: <ToggleButtons list={optionsHasAvailable} label="Лифт" color="primary" />,
     rules: validateRequired(),
   },
 ];

@@ -113,8 +113,6 @@ export const UploadApp = React.forwardRef<HTMLInputElement, IProps>(
       onChange?.(filteredImages);
     };
 
-    console.log(isLoading);
-
     return (
       <Box>
         {label && (

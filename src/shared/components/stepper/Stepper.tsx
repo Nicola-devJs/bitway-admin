@@ -4,7 +4,6 @@ import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepButton from "@mui/material/StepButton";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import { useForm } from "react-hook-form";
 import { FieldFormType, FormApp } from "../form/FormApp";
 import { resetUnnecessaryFieldsForm } from "../../helpers/filterProperty";
@@ -17,9 +16,14 @@ import { StepContent } from "@mui/material";
 interface IProps<T extends IFormFields<GenericTypeFields>> {
   getSteps: (category: OptionsCategoryValueKeys) => { label: string; fields?: FieldFormType<T>[] }[];
   getFormData: (data: T) => void;
+  isErrorRequest: boolean;
 }
 
-export const StepperApp = <T extends IFormFields<GenericTypeFields>>({ getSteps, getFormData }: IProps<T>) => {
+export const StepperApp = <T extends IFormFields<GenericTypeFields>>({
+  getSteps,
+  getFormData,
+  isErrorRequest,
+}: IProps<T>) => {
   const [activeStep, setActiveStep] = React.useState(0);
   const { control, handleSubmit, getValues, reset } = useForm<T>();
   const [completed, setCompleted] = React.useState<{
@@ -38,6 +42,10 @@ export const StepperApp = <T extends IFormFields<GenericTypeFields>>({ getSteps,
     return activeStep === totalSteps(1);
   };
 
+  const isFinishStep = () => {
+    return activeStep === totalSteps();
+  };
+
   const allStepsCompleted = () => {
     return completedSteps() === totalSteps();
   };
@@ -50,10 +58,6 @@ export const StepperApp = <T extends IFormFields<GenericTypeFields>>({ getSteps,
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleStep = (step: number) => () => {
-    setActiveStep(step);
   };
 
   const handleComplete = (data: T) => {
@@ -87,52 +91,46 @@ export const StepperApp = <T extends IFormFields<GenericTypeFields>>({ getSteps,
       <Stepper activeStep={activeStep} orientation="vertical">
         {steps.map((step, index) => (
           <Step key={step.label} completed={completed[index]}>
-            <StepButton color="inherit" onClick={handleStep(index)}>
-              {step.label}
-            </StepButton>
+            <StepButton color="inherit">{step.label}</StepButton>
 
             <StepContent>
-              {allStepsCompleted() ? (
-                <React.Fragment>
-                  <Typography sx={{ mt: 2, mb: 1 }} variant="h3">
-                    Объект успешно опубликован
-                  </Typography>
-                  <Box sx={{ display: "flex", flexDirection: "row", pt: 2, gap: 3 }}>
-                    <Box sx={{ flex: "1 1 auto" }} />
-                    <LinkApp to="/">
-                      <Button>Вернуться в мои объекты</Button>
-                    </LinkApp>
-                    <Button onClick={handleReset}>Опубликовать еще</Button>
-                  </Box>
-                </React.Fragment>
-              ) : (
-                <React.Fragment>
-                  <Box sx={{ mt: 2, mb: 1, py: 2 }}>
-                    {step.fields ? (
-                      <FormApp control={control} fields={step.fields as FieldFormType<T>[]} />
-                    ) : (
-                      <PropertyInfo {...getValues()} />
-                    )}
-                  </Box>
+              <Box sx={{ mt: 2, mb: 1, py: 2 }}>
+                {step.fields ? (
+                  <FormApp control={control} fields={step.fields as FieldFormType<T>[]} />
+                ) : (
+                  <PropertyInfo {...getValues()} />
+                )}
+              </Box>
 
-                  <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                    <Button color="inherit" disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 1 }}>
-                      Назад
-                    </Button>
-                    <Box sx={{ flex: "1 1 auto" }} />
-
-                    {activeStep !== steps.length && (
-                      <Button onClick={handleSubmit(handleComplete)} type="submit">
-                        {completedSteps() === totalSteps(1) ? "Отправить" : "Дальше"}
-                      </Button>
-                    )}
-                  </Box>
-                </React.Fragment>
-              )}
+              <Box sx={{ display: "flex", flexDirection: "row", gap: 2, justifyContent: "flex-start" }}>
+                <Button color="inherit" disabled={activeStep === 0} onClick={handleBack} variant="contained">
+                  Назад
+                </Button>
+                {activeStep !== steps.length && (
+                  <Button onClick={handleSubmit(handleComplete)} type="submit" variant="contained">
+                    {completedSteps() === totalSteps(1) ? "Отправить" : "Дальше"}
+                  </Button>
+                )}
+              </Box>
             </StepContent>
           </Step>
         ))}
       </Stepper>
+      {allStepsCompleted() && isFinishStep() ? (
+        isErrorRequest && isFinishStep() ? (
+          <Button color="inherit" disabled={activeStep === 0} onClick={handleBack} variant="outlined" sx={{ mt: 2 }}>
+            Вернуться к процессу публикации
+          </Button>
+        ) : (
+          <Box sx={{ display: "flex", flexDirection: "row", pt: 2, gap: 3 }}>
+            <Box sx={{ flex: "1 1 auto" }} />
+            <LinkApp to="/">
+              <Button>Вернуться в мои объекты</Button>
+            </LinkApp>
+            <Button onClick={handleReset}>Опубликовать еще</Button>
+          </Box>
+        )
+      ) : null}
     </Box>
   );
 };

@@ -6,7 +6,7 @@ export const resetUnnecessaryFieldsForm = <T extends FieldValues>(
   reset: UseFormReset<T>
 ) => {
   const clearObject = Object.keys(object).reduce((clearObject, key) => {
-    return { ...clearObject, [key]: unnecessaryFields.includes(key) ? object[key] : null };
+    return { ...clearObject, [key]: unnecessaryFields.includes(key) ? object[key] : undefined };
   }, {});
 
   reset(clearObject as T);
