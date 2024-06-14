@@ -17,3 +17,8 @@ export interface IResponseProperties {
   amountPages: number;
   limit: number;
 }
+
+export interface ILocationData {
+  location: Record<string, string[]>;
+  status: Status;
+}

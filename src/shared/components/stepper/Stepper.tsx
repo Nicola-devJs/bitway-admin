@@ -11,18 +11,25 @@ import { AnnouncementTypeFormFieldsName } from "../../../pages/publish/steps/com
 import { PropertyInfo } from "../propertyInfo/PropertyInfo";
 import { LinkApp } from "../../UI/link/LinkApp";
 import { GenericTypeFields, IFormFields, OptionsCategoryValueKeys } from "../../interfaces/form/formFields";
-import { StepContent } from "@mui/material";
+import { StepContent, Typography } from "@mui/material";
+import { getTargetCategory } from "../../helpers/propertyValue";
 
 interface IProps<T extends IFormFields<GenericTypeFields>> {
   getSteps: (category: OptionsCategoryValueKeys) => { label: string; fields?: FieldFormType<T>[] }[];
   getFormData: (data: T) => void;
   isErrorRequest: boolean;
+  defaultValues?: T;
+  isEdit?: boolean;
+  disabledField?: { [field: string]: boolean };
 }
 
 export const StepperApp = <T extends IFormFields<GenericTypeFields>>({
   getSteps,
   getFormData,
   isErrorRequest,
+  defaultValues,
+  isEdit = false,
+  disabledField,
 }: IProps<T>) => {
   const [activeStep, setActiveStep] = React.useState(0);
   const { control, handleSubmit, getValues, reset } = useForm<T>();
@@ -30,7 +37,14 @@ export const StepperApp = <T extends IFormFields<GenericTypeFields>>({
     [k: number]: boolean;
   }>({});
   const categoryValue = getValues()?.category;
+
   const steps = getSteps(categoryValue);
+
+  const getCurrentCategory = (): string => {
+    const category = getTargetCategory(categoryValue, defaultValues?.category);
+
+    return category ? `| ${category} | ${defaultValues?.heading}` : "";
+  };
 
   const totalSteps = (decrement: number = 0) => steps.length - decrement;
 
@@ -57,7 +71,7 @@ export const StepperApp = <T extends IFormFields<GenericTypeFields>>({
   };
 
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    setActiveStep((prev) => prev - 1);
   };
 
   const handleComplete = (data: T) => {
@@ -73,6 +87,14 @@ export const StepperApp = <T extends IFormFields<GenericTypeFields>>({
     handleNext();
   };
 
+  // TODO Не работает в паре с функцией handleBack
+
+  // const handleStep = (step: number) => () => {
+  //   if (!isFinishStep() && completed[step]) {
+  //     setActiveStep(step);
+  //   }
+  // };
+
   const handleReset = () => {
     setActiveStep(0);
     setCompleted({});
@@ -86,19 +108,29 @@ export const StepperApp = <T extends IFormFields<GenericTypeFields>>({
     }
   }, [categoryValue]);
 
+  console.log(activeStep);
+
   return (
     <Box sx={{ width: "100%" }}>
+      <Typography variant="h5" component={"h5"} marginBottom={2}>
+        {isEdit ? "Редактирование" : "Создание"} объявления {getCurrentCategory()}
+      </Typography>
       <Stepper activeStep={activeStep} orientation="vertical">
         {steps.map((step, index) => (
           <Step key={step.label} completed={completed[index]}>
             <StepButton color="inherit">{step.label}</StepButton>
 
             <StepContent>
-              <Box sx={{ mt: 2, mb: 1, py: 2 }}>
+              <Box sx={{ mt: 2, mb: 1, py: 2, maxWidth: 600 }}>
                 {step.fields ? (
-                  <FormApp control={control} fields={step.fields as FieldFormType<T>[]} />
+                  <FormApp
+                    control={control}
+                    fields={step.fields as FieldFormType<T>[]}
+                    defaultValues={defaultValues}
+                    disabledField={disabledField}
+                  />
                 ) : (
-                  <PropertyInfo {...getValues()} />
+                  <PropertyInfo property={getValues()} />
                 )}
               </Box>
 

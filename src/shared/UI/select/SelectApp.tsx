@@ -1,4 +1,4 @@
-import { forwardRef } from "react";
+import { ChangeEventHandler, forwardRef } from "react";
 import { BaseTextFieldProps, MenuItem, TextField } from "@mui/material";
 
 type OptionType = {
@@ -8,8 +8,7 @@ type OptionType = {
 
 interface IProps extends BaseTextFieldProps {
   options: OptionType[];
-  error?: boolean;
-  helperText?: string;
+  onChange?: ChangeEventHandler<HTMLInputElement>;
 }
 
 export const SelectApp = forwardRef<HTMLInputElement, IProps>(({ options, ...props }, ref) => {

@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { IResponseProperties, IResponseProperty } from "../../shared/interfaces/property";
+import { ILocationData, IResponseProperties, IResponseProperty } from "../../shared/interfaces/property";
 import { IFormFields, GenericTypeFields } from "../../shared/interfaces/form/formFields";
 import { getCookie } from "../../shared/helpers/cookie";
 
@@ -33,12 +33,23 @@ export const propertiesApi = createApi({
       query: (body) => ({ url: "/admin/", body, method: "POST" }),
       invalidatesTags: ["Properties"],
     }),
+    editProperty: builder.mutation<IResponseProperty, { id: string; data: IFormFields<GenericTypeFields> }>({
+      query: ({ id, data }) => ({ url: `/admin/${id}`, body: data, method: "PATCH" }),
+      invalidatesTags: ["Properties"],
+    }),
     removeProperty: builder.mutation<IResponseProperty, string>({
       query: (id) => ({ url: `/admin/${id}`, method: "DELETE" }),
       invalidatesTags: ["Properties"],
     }),
+    getLocation: builder.query<ILocationData, void>({ query: () => "/admin/location" }),
   }),
 });
 
-export const { useGetPropertiesAllQuery, useGetPropertyByIdQuery, useAddPropertyMutation, useRemovePropertyMutation } =
-  propertiesApi;
+export const {
+  useGetPropertiesAllQuery,
+  useGetPropertyByIdQuery,
+  useAddPropertyMutation,
+  useRemovePropertyMutation,
+  useEditPropertyMutation,
+  useGetLocationQuery,
+} = propertiesApi;

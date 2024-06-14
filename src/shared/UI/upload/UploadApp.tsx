@@ -78,13 +78,18 @@ export const UploadApp = React.forwardRef<HTMLInputElement, IProps>(
     const changeHandler: React.ChangeEventHandler<HTMLInputElement> = async (e) => {
       const files = e.target.files;
 
-      if (!files) {
+      if (!files || files.length === 0) {
         return;
       }
 
       const dataUrls = await getUrls(Array.from(files));
 
-      onChange?.(dataUrls);
+      if (Array.isArray(value)) {
+        const uniqueDataUrls = Array.from(new Set([...value, ...dataUrls]));
+        onChange?.(uniqueDataUrls);
+      } else {
+        onChange?.(dataUrls);
+      }
     };
 
     const showModalHandler = (idImg: number) => () => {

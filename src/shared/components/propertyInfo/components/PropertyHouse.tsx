@@ -1,6 +1,11 @@
+import { FC } from "react";
 import { GenericTypeFields, IFormFields } from "../../../interfaces/form/formFields";
 
-export const PropertyHouse = (data: IFormFields<GenericTypeFields.House>) => {
-  console.log(data);
+interface IProps {
+  property: IFormFields<GenericTypeFields.House>;
+}
+
+export const PropertyHouse: FC<IProps> = ({ property }) => {
+  console.log(property);
   return <div>PropertyHouse</div>;
 };

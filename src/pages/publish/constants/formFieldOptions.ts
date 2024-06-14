@@ -22,7 +22,6 @@ export const optionsTypeStructure = [
 ];
 
 export const optionsNumberRooms = [
-  { value: "studia", label: "Студия" },
   { value: "1", label: "Однокомнатная" },
   { value: "2", label: "Двухкомнатная" },
   { value: "3", label: "Трехкомнатная" },

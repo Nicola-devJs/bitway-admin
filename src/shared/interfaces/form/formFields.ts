@@ -1,4 +1,4 @@
-import { IAddressProperty } from "./addressFields";
+import { IAddressProperty, IAddressPropertyDetails } from "./addressFields";
 import {
   IPropertyParamsApartments,
   IPropertyParamsGarage,
@@ -43,14 +43,15 @@ export enum GenericTypeFields {
 type UniqueTypeFields<T> = T extends GenericTypeFields.Apartment
   ? IPropertyParamsApartments & IPropertyFeaturesApartments
   : T extends GenericTypeFields.House
-  ? IAddressProperty & IPropertyParamsHouse & IPropertyFeaturesHouse
+  ? IPropertyParamsHouse & IPropertyFeaturesHouse
   : T extends GenericTypeFields.Garage
-  ? IAddressProperty & IPropertyParamsGarage & IPropertyFeaturesGarage
+  ? IPropertyParamsGarage & IPropertyFeaturesGarage
   : T extends GenericTypeFields.Plot
-  ? IAddressProperty & IPropertyParamsPlot & IPropertyFeaturesPlot
+  ? IPropertyParamsPlot & IPropertyFeaturesPlot
   : never;
 
 export type IFormFields<T extends GenericTypeFields> = IAnnouncementTypeFields &
   IDescriptionFields &
   IPriceFields &
+  IAddressProperty &
   UniqueTypeFields<T>;

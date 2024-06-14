@@ -11,21 +11,21 @@ export const Publish = () => {
   const [statusPublished, setStatusPublished] = useState("");
   const [publishProperty, { isLoading, isSuccess, isError }] = useAddPropertyMutation();
 
-  const showStausPublished = (statusText: string) => {
+  const showStatusPublished = (statusText: string) => {
     setStatusPublished(statusText);
   };
 
-  const hideStausPublished = () => {
+  const hideStatusPublished = () => {
     setStatusPublished("");
   };
 
-  const registateDate = (data: IFormFields<GenericTypeFields>) => {
+  const registrateData = (data: IFormFields<GenericTypeFields>) => {
     publishProperty(data)
       .unwrap()
       .then(() => {
-        showStausPublished("Ваш объкт успешно опубликован");
+        showStatusPublished("Ваш объкт успешно опубликован");
       })
-      .catch(() => showStausPublished("Ваш объкт не опубликовался, попробуйте еще раз"));
+      .catch(() => showStatusPublished("Ваш объкт не опубликовался, попробуйте еще раз"));
   };
 
   useEffect(() => {
@@ -34,10 +34,15 @@ export const Publish = () => {
 
   return (
     <>
-      <StepperApp getSteps={getFormSteps as any} getFormData={registateDate} isErrorRequest={isError} />
+      <StepperApp
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        getSteps={getFormSteps as any}
+        getFormData={registrateData}
+        isErrorRequest={isError}
+      />
       <SnackbarApp
         isOpen={!!statusPublished}
-        handleClose={hideStausPublished}
+        handleClose={hideStatusPublished}
         description={statusPublished}
         severity={isSuccess ? "success" : "error"}
       />

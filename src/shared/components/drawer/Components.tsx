@@ -23,6 +23,9 @@ const closedMixin = (theme: Theme): CSSObject => ({
   [theme.breakpoints.up("sm")]: {
     width: `calc(${theme.spacing(8)} + 1px)`,
   },
+  [theme.breakpoints.down("sm")]: {
+    width: 0,
+  },
 });
 
 export const DrawerHeader = styled("div")(({ theme }) => ({
@@ -30,6 +33,7 @@ export const DrawerHeader = styled("div")(({ theme }) => ({
   alignItems: "center",
   justifyContent: "flex-end",
   padding: theme.spacing(0, 1),
+
   ...theme.mixins.toolbar,
 }));
 
@@ -39,19 +43,11 @@ interface AppBarProps extends MuiAppBarProps {
 
 export const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
-})<AppBarProps>(({ theme, open }) => ({
+})<AppBarProps>(({ theme }) => ({
   zIndex: theme.zIndex.drawer + 1,
   transition: theme.transitions.create(["width", "margin"], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(["width", "margin"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
   }),
 }));
 
@@ -60,12 +56,51 @@ export const DrawerApp = styled(Drawer, { shouldForwardProp: (prop) => prop !== 
   flexShrink: 0,
   whiteSpace: "nowrap",
   boxSizing: "border-box",
-  ...(open && {
-    ...openedMixin(theme),
-    "& .MuiDrawer-paper": openedMixin(theme),
+  [theme.breakpoints.up("sm")]: {
+    ...(open && {
+      ...openedMixin(theme),
+      "& .MuiDrawer-paper": openedMixin(theme),
+    }),
+    ...(!open && {
+      ...closedMixin(theme),
+      "& .MuiDrawer-paper": closedMixin(theme),
+    }),
+  },
+  [theme.breakpoints.down("sm")]: {
+    ...(open && {
+      ...openedMixin(theme),
+      "& .MuiDrawer-paper": openedMixin(theme),
+      "position": "fixed",
+      "backgroundColor": "white",
+      "zIndex": 90,
+      "left": 0,
+      "bottom": 0,
+    }),
+    ...(!open && {
+      "width": 0,
+      "& .MuiDrawer-paper": closedMixin(theme),
+    }),
+  },
+}));
+
+export const Overlay = styled("div")<{ open: boolean }>(({ theme, open }) => ({
+  position: "fixed",
+  top: 0,
+  left: 0,
+  width: "100%",
+  height: "100%",
+  backgroundColor: "rgba(0, 0, 0, 0.5)",
+  backdropFilter: "blur(5px)",
+  zIndex: 1,
+  opacity: open ? 1 : 0,
+  visibility: open ? "visible" : "hidden",
+
+  transition: theme.transitions.create(["opacity", "visibility"], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
   }),
-  ...(!open && {
-    ...closedMixin(theme),
-    "& .MuiDrawer-paper": closedMixin(theme),
-  }),
+
+  [theme.breakpoints.up("sm")]: {
+    display: "none",
+  },
 }));

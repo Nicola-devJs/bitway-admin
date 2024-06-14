@@ -9,21 +9,26 @@ import { PropertyPlot } from "./components/PropertyPlot";
 import { PropertyApartment } from "./components/PropertyApartment";
 import { PropertyHouse } from "./components/PropertyHouse";
 import { PropertyGarage } from "./components/PropertyGarage";
+import { FC } from "react";
 
-export const PropertyInfo = (data: IFormFields<GenericTypeFields>) => {
-  if (isApartmentProperty(data)) {
-    return <PropertyApartment {...data} />;
+interface IProps {
+  property: IFormFields<GenericTypeFields>;
+}
+
+export const PropertyInfo: FC<IProps> = ({ property }) => {
+  if (isApartmentProperty(property)) {
+    return <PropertyApartment property={property} />;
   }
 
-  if (isHouseProperty(data)) {
-    return <PropertyHouse {...data} />;
+  if (isHouseProperty(property)) {
+    return <PropertyHouse property={property} />;
   }
 
-  if (isPlotProperty(data)) {
-    return <PropertyPlot {...data} />;
+  if (isPlotProperty(property)) {
+    return <PropertyPlot property={property} />;
   }
 
-  if (isGarageProperty(data)) {
-    return <PropertyGarage {...data} />;
+  if (isGarageProperty(property)) {
+    return <PropertyGarage property={property} />;
   }
 };

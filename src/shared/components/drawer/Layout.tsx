@@ -1,8 +1,7 @@
 import React from "react";
-import { useTheme } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import MenuOpenIcon from "@mui/icons-material/MenuOpen";
+import LogoutIcon from "@mui/icons-material/Logout";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 
 import {
@@ -18,8 +17,10 @@ import {
   ListItemIcon,
   ListItemText,
   Button,
+  useMediaQuery,
+  styled,
 } from "@mui/material";
-import { DrawerApp, DrawerHeader, AppBar } from "./Components";
+import { DrawerApp, DrawerHeader, AppBar, Overlay } from "./Components";
 import { navMenu } from "../../constants/menu";
 import { Outlet } from "react-router-dom";
 import { LinkApp } from "../../UI/link/LinkApp";
@@ -27,17 +28,21 @@ import { useAppSelector } from "../../../redux/hooks";
 import { deleteCookie } from "../../helpers/cookie";
 import { ModalApp } from "../../UI/modal/ModalApp";
 
+const pureFn = () => {};
+
 export function Layout() {
   const { userData: user } = useAppSelector((state) => state.user);
-  const theme = useTheme();
-  const [open, setOpen] = React.useState(true);
-  const [showModal, setShowModal] = React.useState(false);
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
+  const initialOpenMenu = useMediaQuery("(min-width:1000px)");
+  const [open, setOpen] = React.useState(initialOpenMenu);
+  const [showModal, setShowModal] = React.useState(false);
+  const isScreen600 = useMediaQuery("(min-width: 600px)");
+
+  const handleDrawerToggle = () => {
+    setOpen((isOpen) => !isOpen);
   };
 
-  const handleDrawerClose = () => {
+  const handleDrawerHide = () => {
     setOpen(false);
   };
 
@@ -60,38 +65,35 @@ export function Layout() {
         <CssBaseline />
         <AppBar position="fixed" open={open}>
           <Toolbar>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              onClick={handleDrawerOpen}
-              edge="start"
-              sx={{
-                marginRight: 5,
-                ...(open && { display: "none" }),
-              }}
-            >
-              <MenuIcon />
-            </IconButton>
+            <MenuIconButton color="inherit" aria-label="open drawer" onClick={handleDrawerToggle} edge="start">
+              {open ? <MenuOpenIcon /> : <MenuIcon />}
+            </MenuIconButton>
             <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
               {user?.firstName} {user?.lastName}
             </Typography>
-            <LinkApp to={import.meta.env.VITE_REDIRECT_HOME}>
-              <Button variant="outlined" sx={{ color: "white", borderColor: "white" }}>
-                Вернуться на сайт
-              </Button>
+            <LinkApp
+              to={import.meta.env.VITE_REDIRECT_HOME}
+              style={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+            >
+              {isScreen600 ? (
+                <Button variant="outlined" sx={{ color: "white", borderColor: "white" }}>
+                  Вернуться на сайт
+                </Button>
+              ) : (
+                <LogoutIcon sx={{ color: "white", fontSize: 28 }} />
+              )}
             </LinkApp>
           </Toolbar>
         </AppBar>
         <DrawerApp variant="permanent" open={open}>
-          <DrawerHeader>
-            <IconButton onClick={handleDrawerClose}>
-              {theme.direction === "rtl" ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-            </IconButton>
-          </DrawerHeader>
-          <Divider />
-          <List sx={{ flexGrow: 1 }}>
+          <List sx={{ flexGrow: 1, mt: 8 }}>
             {navMenu.map((menuItem) => (
-              <ListItem disablePadding sx={{ display: "block" }} key={menuItem.path}>
+              <ListItem
+                disablePadding
+                sx={{ display: "block" }}
+                key={menuItem.path}
+                onClick={isScreen600 ? pureFn : handleDrawerHide}
+              >
                 <LinkApp to={menuItem.path} style={{ color: "inherit" }}>
                   <ListItemButton
                     sx={{
@@ -142,6 +144,7 @@ export function Layout() {
             </ListItem>
           </List>
         </DrawerApp>
+        <Overlay open={open} onClick={handleDrawerHide} />
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
           <DrawerHeader />
           <Outlet />
@@ -165,3 +168,11 @@ export function Layout() {
     </>
   );
 }
+
+const MenuIconButton = styled(IconButton)(({ theme }) => ({
+  marginRight: 20,
+
+  [theme.breakpoints.down("sm")]: {
+    marginRight: 8,
+  },
+}));

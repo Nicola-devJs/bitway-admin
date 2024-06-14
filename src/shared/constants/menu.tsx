@@ -3,6 +3,7 @@ import { Archive, Publish, AssignmentTurnedIn, Domain } from "@mui/icons-materia
 export enum NAVMENU {
   PROPERTIES = "/",
   PUBLIC = "public",
+  EDIT = "edit/",
   MODERATION = "moderation",
   ARCHIVE = "archive",
   PROPERTY = "property/",

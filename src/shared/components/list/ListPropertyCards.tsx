@@ -54,7 +54,7 @@ export const ListPropertyCards = ({ list, loading, error }: IProps) => {
       .catch(() => setDescriptionSnackbar("Упс, ссылка не скопировалась, попробуйте еще раз"));
   };
 
-  const deletePropertyCard = () => {
+  const deleteProperty = () => {
     if (!propertyId) {
       return;
     }
@@ -107,7 +107,7 @@ export const ListPropertyCards = ({ list, loading, error }: IProps) => {
         title={"Вы действительно хотите удалить объект?"}
         actions={
           <>
-            <Button onClick={deletePropertyCard} color="primary" autoFocus>
+            <Button onClick={deleteProperty} color="primary" autoFocus>
               Удалить
             </Button>
             <Button onClick={hideModalHandler} color="secondary">
