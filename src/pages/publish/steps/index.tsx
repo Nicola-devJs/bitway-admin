@@ -3,29 +3,29 @@ import * as FormFields from "./components/FormFields";
 
 const ParamsFields = (value: OptionsCategoryValueKeys) => {
   switch (value) {
-    case "apartment":
+    case "Квартира":
       return FormFields.PropertyParamsApartments;
-    case "house":
+    case "Дом":
       return FormFields.PropertyParamsHouse;
-    case "plot":
+    case "Участок":
       return FormFields.PropertyParamsPlot;
-    case "garage":
+    case "Гараж":
       return FormFields.PropertyParamsGarage;
   }
 };
 
 const FeaturesFields = (value: OptionsCategoryValueKeys) => {
   switch (value) {
-    case "apartment":
+    case "Квартира":
       return FormFields.PropertyFeaturesApartments;
 
-    case "house":
+    case "Дом":
       return FormFields.PropertyFeaturesHouse;
 
-    case "plot":
+    case "Участок":
       return FormFields.PropertyFeaturesPlot;
 
-    case "garage":
+    case "Гараж":
       return FormFields.PropertyFeaturesGarage;
   }
 };

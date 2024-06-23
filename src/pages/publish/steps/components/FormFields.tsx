@@ -43,16 +43,16 @@ const AnnouncementTypeFormFields: FieldFormType<IAnnouncementTypeFields>[] = [
 ];
 
 const DescriptionFormFields: FieldFormType<IDescriptionFields>[] = [
-  { name: "heading", inputForm: <TextField label="Heading" variant="outlined" />, rules: validateRequired() },
-  { name: "description", inputForm: <TextareaApp placeholder="Description" /> },
+  { name: "heading", inputForm: <TextField label="Заголовок" variant="outlined" />, rules: validateRequired() },
+  { name: "description", inputForm: <TextareaApp placeholder="Описание" /> },
   {
     name: "photos",
-    inputForm: <UploadApp label="Photos" />,
+    inputForm: <UploadApp label="Галерея" />,
     defaultValue: [],
   },
   {
     name: "plans",
-    inputForm: <UploadApp label="Plans" />,
+    inputForm: <UploadApp label="Планы" />,
     defaultValue: [],
   },
 ];
@@ -60,12 +60,12 @@ const DescriptionFormFields: FieldFormType<IDescriptionFields>[] = [
 const PriceFormFields: FieldFormType<IPriceFields>[] = [
   {
     name: "price",
-    inputForm: <TextField label="Price" variant="outlined" type="number" />,
+    inputForm: <TextField label="Стоимость" variant="outlined" type="number" />,
     rules: validateRequired(),
   },
   {
     name: "phone",
-    inputForm: <TextField label="Phone" variant="outlined" type="number" />,
+    inputForm: <TextField label="Контактный телефон" variant="outlined" type="number" />,
     rules: validateRequired(),
   },
 ];

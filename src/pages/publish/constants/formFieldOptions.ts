@@ -1,24 +1,24 @@
 export const optionsTransactionType = [
-  { value: "rent", label: "Аренда" },
-  { value: "buy", label: "Продажа" },
+  { value: "Аренда", label: "Аренда" },
+  { value: "Продажа", label: "Продажа" },
 ];
 
 export const optionsPropertyType = [
-  { value: "residential", label: "Жилая" },
-  { value: "commercial", label: "Коммерческая" },
+  { value: "Жилая", label: "Жилая" },
+  { value: "Коммерческая", label: "Коммерческая" },
 ];
 
 export const optionsCategory = [
-  { value: "apartment", label: "Квартира" },
-  { value: "house", label: "Дом" },
-  { value: "garage", label: "Гараж" },
-  { value: "plot", label: "Участок" },
+  { value: "Квартира", label: "Квартира" },
+  { value: "Дом", label: "Дом" },
+  { value: "Гараж", label: "Гараж" },
+  { value: "Участок", label: "Участок" },
 ] as const;
 
 export const optionsTypeStructure = [
-  { value: "brick", label: "Кирпичный" },
-  { value: "monolithic", label: "Монолитный" },
-  { value: "paneled", label: "Панельный" },
+  { value: "Кирпичный", label: "Кирпичный" },
+  { value: "Монолитный", label: "Монолитный" },
+  { value: "Панельный", label: "Панельный" },
 ];
 
 export const optionsNumberRooms = [
@@ -28,14 +28,14 @@ export const optionsNumberRooms = [
 ];
 
 export const optionsHouseStructure = [
-  { value: "brick", label: "Кирпичный" },
-  { value: "stone", label: "Каменный" },
-  { value: "aeratedConcreteBlock", label: "Газобетонный блок" },
+  { value: "Кирпичный", label: "Кирпичный" },
+  { value: "Каменный", label: "Каменный" },
+  { value: "Газобетонный блок", label: "Газобетонный блок" },
 ];
 
 export const optionsEntrance = [
-  { value: "ramp", label: "Пандус" },
-  { value: "garbageСhute", label: "Мусоропровод" },
+  { value: "Пандус", label: "Пандус" },
+  { value: "Мусоропровод", label: "Мусоропровод" },
 ];
 
 export const optionsParking = [
@@ -73,7 +73,5 @@ export const optionsRenovation = [
   { value: "Дизайнерский", label: "Дизайнерский" },
   { value: "Без ремонта", label: "Без ремонта" },
 ];
-
-export const optionsRegion = ["Тирасполь", "Бендеры", "Григориополь", "Рыбница", "Каменка", "Дубоссары"];
 
 export const optionsAdditionally = ["Гараж", "Погреб", "Баня", "Терраса", "Полисадник", "Огород"];

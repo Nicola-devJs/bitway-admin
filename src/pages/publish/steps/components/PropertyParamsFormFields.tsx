@@ -13,7 +13,7 @@ import { SelectApp } from "../../../../shared/UI/select/SelectApp";
 export const PropertyParamsApartments: FieldFormType<IPropertyParamsApartments>[] = [
   {
     name: "floor",
-    inputForm: <TextField label="Floor" variant="outlined" type="number" />,
+    inputForm: <TextField label="Этаж" variant="outlined" type="number" />,
     rules: {
       validate: (value, fields) => {
         return +value > +fields.floorHouse ? "Этаж не может быть больше этажности дома" : true;
@@ -23,12 +23,12 @@ export const PropertyParamsApartments: FieldFormType<IPropertyParamsApartments>[
   },
   {
     name: "floorHouse",
-    inputForm: <TextField label="Floor house" variant="outlined" type="number" />,
+    inputForm: <TextField label="Этажность дома" variant="outlined" type="number" />,
     rules: validateRequired(),
   },
   {
     name: "number",
-    inputForm: <TextField label="Number" variant="outlined" type="number" />,
+    inputForm: <TextField label="Номер квартиры" variant="outlined" type="number" />,
     rules: validateRequired(),
   },
   {
@@ -43,22 +43,22 @@ export const PropertyParamsApartments: FieldFormType<IPropertyParamsApartments>[
   },
   {
     name: "generalArea",
-    inputForm: <TextField label="Total area" variant="outlined" type="number" />,
+    inputForm: <TextField label="Общая площадь, м²" variant="outlined" type="number" />,
     rules: validateRequired(),
   },
   {
     name: "livingArea",
-    inputForm: <TextField label="Residential area" variant="outlined" type="number" />,
+    inputForm: <TextField label="Жилая площадь, м²" variant="outlined" type="number" />,
     rules: validateRequired(),
   },
   {
     name: "balconies",
-    inputForm: <TextField label="Balconies" variant="outlined" type="number" />,
+    inputForm: <TextField label="Балконы" variant="outlined" type="number" />,
     rules: validateRequired(),
   },
   {
     name: "bathroom",
-    inputForm: <TextField label="Bathroom" variant="outlined" type="number" />,
+    inputForm: <TextField label="Ванная комната" variant="outlined" type="number" />,
     rules: validateRequired(),
   },
 ];
@@ -66,22 +66,22 @@ export const PropertyParamsApartments: FieldFormType<IPropertyParamsApartments>[
 export const PropertyParamsHouse: FieldFormType<IPropertyParamsHouse>[] = [
   {
     name: "generalArea",
-    inputForm: <TextField label="Plot area" variant="outlined" type="number" />,
+    inputForm: <TextField label="Общая площадь, м²" variant="outlined" type="number" />,
     rules: validateRequired(),
   },
   {
     name: "livingArea",
-    inputForm: <TextField label="House area" variant="outlined" type="number" />,
+    inputForm: <TextField label="Жилая площадь, м²" variant="outlined" type="number" />,
     rules: validateRequired(),
   },
   {
     name: "numberFloor",
-    inputForm: <TextField label="Number floor" variant="outlined" type="number" />,
+    inputForm: <TextField label="Этажность" variant="outlined" type="number" />,
     rules: validateRequired(),
   },
   {
     name: "numberRooms",
-    inputForm: <TextField label="Number rooms" variant="outlined" type="number" />,
+    inputForm: <TextField label="Кол-во комнат" variant="outlined" type="number" />,
     rules: validateRequired(),
   },
   {
@@ -91,7 +91,7 @@ export const PropertyParamsHouse: FieldFormType<IPropertyParamsHouse>[] = [
   },
   {
     name: "bathroom",
-    inputForm: <TextField label="Bathroom" variant="outlined" type="number" />,
+    inputForm: <TextField label="Ванная комната" variant="outlined" type="number" />,
     rules: validateRequired(),
   },
 ];
@@ -99,7 +99,7 @@ export const PropertyParamsHouse: FieldFormType<IPropertyParamsHouse>[] = [
 export const PropertyParamsPlot: FieldFormType<IPropertyParamsPlot>[] = [
   {
     name: "generalArea",
-    inputForm: <TextField label="Plot area" variant="outlined" type="number" />,
+    inputForm: <TextField label="Общая площадь, м²" variant="outlined" type="number" />,
     rules: validateRequired(),
   },
 ];
@@ -107,7 +107,7 @@ export const PropertyParamsPlot: FieldFormType<IPropertyParamsPlot>[] = [
 export const PropertyParamsGarage: FieldFormType<IPropertyParamsGarage>[] = [
   {
     name: "generalArea",
-    inputForm: <TextField label="Garage area" variant="outlined" type="number" />,
+    inputForm: <TextField label="Общая площадь, м²" variant="outlined" type="number" />,
     rules: validateRequired(),
   },
 ];

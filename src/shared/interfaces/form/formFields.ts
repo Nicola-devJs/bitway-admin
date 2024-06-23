@@ -1,4 +1,4 @@
-import { IAddressProperty, IAddressPropertyDetails } from "./addressFields";
+import { IAddressProperty } from "./addressFields";
 import {
   IPropertyParamsApartments,
   IPropertyParamsGarage,

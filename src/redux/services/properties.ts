@@ -41,7 +41,7 @@ export const propertiesApi = createApi({
       query: (id) => ({ url: `/admin/${id}`, method: "DELETE" }),
       invalidatesTags: ["Properties"],
     }),
-    getLocation: builder.query<ILocationData, void>({ query: () => "/admin/location" }),
+    getLocation: builder.query<ILocationData, void>({ query: () => "/location" }),
   }),
 });
 

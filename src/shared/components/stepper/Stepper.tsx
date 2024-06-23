@@ -108,8 +108,6 @@ export const StepperApp = <T extends IFormFields<GenericTypeFields>>({
     }
   }, [categoryValue]);
 
-  console.log(activeStep);
-
   return (
     <Box sx={{ width: "100%" }}>
       <Typography variant="h5" component={"h5"} marginBottom={2}>

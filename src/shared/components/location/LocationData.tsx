@@ -77,8 +77,6 @@ export const LocationData = forwardRef<HTMLInputElement, IProps>(({ onChange, va
     onChange?.(location);
   }, [valueState, onChange]);
 
-  console.log(value);
-
   return (
     <>
       <SelectApp
