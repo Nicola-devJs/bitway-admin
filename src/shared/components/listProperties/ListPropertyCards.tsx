@@ -7,9 +7,10 @@ import { Button, styled } from "@mui/material";
 import { ErrorApp } from "../error/ErrorApp";
 import { ModalApp } from "../../UI/modal/ModalApp";
 import { SnackbarApp } from "../../UI/snackbar/Snackbar";
-import { useRemovePropertyMutation } from "../../../redux/services/properties";
+import { useAddArchiveMutation, useRemovePropertyMutation } from "../../../redux/services/properties";
 import { NAVMENU } from "../../constants/menu";
 import { BackdropContext } from "../../hoc/BackdropProvider";
+import { IFormFields, GenericTypeFields } from "../../interfaces/form/formFields";
 
 interface IProps {
   list: IPropertyCard[] | undefined;
@@ -31,14 +32,19 @@ export const ListPropertyCards = ({ list, loading, error }: IProps) => {
   const { toggleBackdrop } = useContext(BackdropContext);
 
   const [removePropertyAction, { isLoading }] = useRemovePropertyMutation();
+  const [addArchiveAction, { isLoading: addArchiveLoading }] = useAddArchiveMutation();
 
   const clearDescriptionSnackbar = () => {
     setDescriptionSnackbar("");
   };
 
-  const showModalHandler = (id: string) => {
+  const handleDeleteProperty = (id: string) => {
     setOpenModal(true);
     setPropertyId(id);
+  };
+
+  const handleAddArchive = (id: string, property: IFormFields<GenericTypeFields>) => {
+    addArchiveAction({ id, body: property });
   };
 
   const hideModalHandler = () => {
@@ -72,8 +78,8 @@ export const ListPropertyCards = ({ list, loading, error }: IProps) => {
   };
 
   useEffect(() => {
-    toggleBackdrop(isLoading);
-  }, [isLoading]);
+    toggleBackdrop(isLoading || addArchiveLoading);
+  }, [isLoading, addArchiveLoading]);
 
   return (
     <>
@@ -95,8 +101,10 @@ export const ListPropertyCards = ({ list, loading, error }: IProps) => {
             <PropertyCard
               key={item._id}
               property={item}
-              showModal={showModalHandler}
+              showModalDelete={handleDeleteProperty}
+              showModalAddArchive={handleAddArchive}
               setShareUrlProperty={writeUrlProperty}
+              redirectPathname={NAVMENU.PROPERTY}
             />
           ))}
         </StyledList>
