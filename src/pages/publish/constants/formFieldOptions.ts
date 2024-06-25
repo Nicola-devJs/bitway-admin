@@ -19,18 +19,13 @@ export const optionsTypeStructure = [
   { value: "Кирпичный", label: "Кирпичный" },
   { value: "Монолитный", label: "Монолитный" },
   { value: "Панельный", label: "Панельный" },
+  { value: "Кательцовый", label: "Кательцовый" },
 ];
 
 export const optionsNumberRooms = [
   { value: "1", label: "Однокомнатная" },
   { value: "2", label: "Двухкомнатная" },
   { value: "3", label: "Трехкомнатная" },
-];
-
-export const optionsHouseStructure = [
-  { value: "Кирпичный", label: "Кирпичный" },
-  { value: "Каменный", label: "Каменный" },
-  { value: "Газобетонный блок", label: "Газобетонный блок" },
 ];
 
 export const optionsEntrance = [

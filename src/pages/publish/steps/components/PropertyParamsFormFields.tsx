@@ -7,7 +7,7 @@ import {
   IPropertyParamsHouse,
   IPropertyParamsPlot,
 } from "../../../../shared/interfaces/form/paramsFields";
-import { optionsHouseStructure, optionsNumberRooms, optionsTypeStructure } from "../../constants/formFieldOptions";
+import { optionsNumberRooms, optionsTypeStructure } from "../../constants/formFieldOptions";
 import { SelectApp } from "../../../../shared/UI/select/SelectApp";
 
 export const PropertyParamsApartments: FieldFormType<IPropertyParamsApartments>[] = [
@@ -27,13 +27,8 @@ export const PropertyParamsApartments: FieldFormType<IPropertyParamsApartments>[
     rules: validateRequired(),
   },
   {
-    name: "number",
-    inputForm: <TextField label="Номер квартиры" variant="outlined" type="number" />,
-    rules: validateRequired(),
-  },
-  {
     name: "typeStructure",
-    inputForm: <SelectApp options={optionsTypeStructure} label="Тип здания" />,
+    inputForm: <SelectApp options={optionsTypeStructure} label="Тип строения" />,
     rules: validateRequired(),
   },
   {
@@ -75,7 +70,7 @@ export const PropertyParamsHouse: FieldFormType<IPropertyParamsHouse>[] = [
     rules: validateRequired(),
   },
   {
-    name: "numberFloor",
+    name: "floorHouse",
     inputForm: <TextField label="Этажность" variant="outlined" type="number" />,
     rules: validateRequired(),
   },
@@ -86,7 +81,7 @@ export const PropertyParamsHouse: FieldFormType<IPropertyParamsHouse>[] = [
   },
   {
     name: "typeStructure",
-    inputForm: <SelectApp options={optionsHouseStructure} label="Тип строения" />,
+    inputForm: <SelectApp options={optionsTypeStructure} label="Тип строения" />,
     rules: validateRequired(),
   },
   {
