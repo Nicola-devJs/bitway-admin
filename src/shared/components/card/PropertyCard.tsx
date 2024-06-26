@@ -16,12 +16,11 @@ import { FC } from "react";
 import { IPropertyCard } from "../../interfaces/property";
 import { Button, IconButton, styled } from "@mui/material";
 import { getTargetCategory, getTargetTransaction } from "../../helpers/propertyValue";
-import { GenericTypeFields, IFormFields } from "../../interfaces/form/formFields";
 
 interface IProps {
   property: IPropertyCard;
   showModalDelete: (id: string) => void;
-  showModalAddArchive?: (id: string, data: IFormFields<GenericTypeFields>) => void;
+  showModalAddArchive?: (id: string, data: IPropertyCard) => void;
   setShareUrlProperty: (id: string) => void;
   redirectPathname?: string;
   isArchive?: boolean;
@@ -40,7 +39,7 @@ export const PropertyCard: FC<IProps> = ({
       <Card sx={{ display: "flex", flexDirection: "column" }}>
         <CardMedia component="img" alt="green iguana" height="250" image={property.photos[0] || image} />
         <CardContent sx={{ flexGrow: 1 }}>
-          <HeadingCard gutterBottom variant="h4">
+          <HeadingCard gutterBottom variant="h5">
             {property.heading}
           </HeadingCard>
           <Typography variant="h6" gutterBottom>

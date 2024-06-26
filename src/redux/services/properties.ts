@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { ILocationData, IResponseProperties, IResponseProperty } from "../../shared/interfaces/property";
+import { ILocationData, IPropertyCard, IResponseProperties, IResponseProperty } from "../../shared/interfaces/property";
 import { IFormFields, GenericTypeFields } from "../../shared/interfaces/form/formFields";
 import { getCookie } from "../../shared/helpers/cookie";
 
@@ -44,7 +44,7 @@ export const propertiesApi = createApi({
       query: (body) => ({ url: "/admin", body, method: "POST" }),
       invalidatesTags: ["Properties"],
     }),
-    addArchive: builder.mutation<IResponseProperty, { id: string; body: IFormFields<GenericTypeFields> }>({
+    addArchive: builder.mutation<IResponseProperty, { id: string; body: IPropertyCard }>({
       query: ({ id, body }) => ({ url: `/archive/${id}`, body, method: "POST" }),
       invalidatesTags: ["Archive", "Properties"],
     }),

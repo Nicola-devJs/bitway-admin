@@ -6,10 +6,11 @@ import { EmptyApp } from "../empty/EmptyApp";
 import { Button, styled } from "@mui/material";
 import { ErrorApp } from "../error/ErrorApp";
 import { ModalApp } from "../../UI/modal/ModalApp";
-import { SnackbarApp } from "../../UI/snackbar/Snackbar";
 import { useRemoveArchiveMutation } from "../../../redux/services/properties";
 import { NAVMENU } from "../../constants/menu";
 import { BackdropContext } from "../../hoc/BackdropProvider";
+import { useSetSnackbar } from "../../hooks/useSetSnackbar";
+import { writeUrlProperty } from "../../helpers/others";
 
 interface IProps {
   list: IPropertyCard[] | undefined;
@@ -24,17 +25,12 @@ const StyledList = styled("div")({
 });
 
 export const ListArchiveCards = ({ list, loading, error }: IProps) => {
-  const [descriptionSnackbar, setDescriptionSnackbar] = useState("");
   const [openModal, setOpenModal] = useState(false);
   const [propertyId, setPropertyId] = useState<string | null>(null);
-
+  const { onErrorNotification, onSuccessNotification } = useSetSnackbar();
   const { toggleBackdrop } = useContext(BackdropContext);
 
-  const [removePropertyAction, { isLoading }] = useRemoveArchiveMutation();
-
-  const clearDescriptionSnackbar = () => {
-    setDescriptionSnackbar("");
-  };
+  const [removeArchiveAction, { isLoading }] = useRemoveArchiveMutation();
 
   const handleDeleteArchive = (id: string) => {
     setOpenModal(true);
@@ -45,30 +41,24 @@ export const ListArchiveCards = ({ list, loading, error }: IProps) => {
     setOpenModal(false);
   };
 
-  const writeUrlProperty = (id: string) => {
-    const sharePropertyLink = `${NAVMENU.PROPERTY}${id}`;
-
-    navigator.clipboard
-      .writeText(window.location.href + sharePropertyLink)
-      .then(() => setDescriptionSnackbar("Ссылка на объект недвижимости скопирована"))
-      .catch(() => setDescriptionSnackbar("Упс, ссылка не скопировалась, попробуйте еще раз"));
+  const onWriteUrlProperty = (id: string) => {
+    writeUrlProperty(id, onSuccessNotification, onErrorNotification);
   };
 
-  const deleteProperty = () => {
+  const deleteProperty = async () => {
     if (!propertyId) {
       return;
     }
 
-    removePropertyAction(propertyId)
-      .unwrap()
-      .then(() => {
-        setDescriptionSnackbar("Вы успешно удалили архив объекта");
-      })
-      .catch(() => setDescriptionSnackbar("Ваш архив объекта не удалился, попробуйте еще раз"))
-      .finally(() => {
-        hideModalHandler();
-        setPropertyId(null);
-      });
+    try {
+      await removeArchiveAction(propertyId).unwrap();
+      onSuccessNotification("Вы успешно удалили архив объекта");
+    } catch (error) {
+      onErrorNotification("Ваш архив объекта не удалился, попробуйте еще раз");
+    } finally {
+      hideModalHandler();
+      setPropertyId(null);
+    }
   };
 
   useEffect(() => {
@@ -96,7 +86,7 @@ export const ListArchiveCards = ({ list, loading, error }: IProps) => {
               key={item._id}
               property={item}
               showModalDelete={handleDeleteArchive}
-              setShareUrlProperty={writeUrlProperty}
+              setShareUrlProperty={onWriteUrlProperty}
               isArchive
             />
           ))}
@@ -116,11 +106,6 @@ export const ListArchiveCards = ({ list, loading, error }: IProps) => {
             </Button>
           </>
         }
-      />
-      <SnackbarApp
-        isOpen={!!descriptionSnackbar}
-        handleClose={clearDescriptionSnackbar}
-        description={descriptionSnackbar}
       />
     </>
   );

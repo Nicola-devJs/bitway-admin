@@ -24,19 +24,25 @@ import { DrawerApp, DrawerHeader, AppBar, Overlay } from "./Components";
 import { navMenu } from "../../constants/menu";
 import { Outlet } from "react-router-dom";
 import { LinkApp } from "../../UI/link/LinkApp";
-import { useAppSelector } from "../../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { deleteCookie } from "../../helpers/cookie";
 import { ModalApp } from "../../UI/modal/ModalApp";
+import { SnackbarApp } from "../../UI/snackbar/Snackbar";
+import { actions } from "../../../redux/slices/user";
 
 const pureFn = () => {};
 
 export function Layout() {
-  const { userData: user } = useAppSelector((state) => state.user);
+  const {
+    user: { userData: user },
+    notification,
+  } = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
 
   const initialOpenMenu = useMediaQuery("(min-width:1000px)");
   const [open, setOpen] = React.useState(initialOpenMenu);
   const [showModal, setShowModal] = React.useState(false);
-  const isScreen600 = useMediaQuery("(min-width: 600px)");
+  const isLaptopScreen = useMediaQuery("(min-width: 900px)");
 
   const handleDrawerToggle = () => {
     setOpen((isOpen) => !isOpen);
@@ -59,6 +65,10 @@ export function Layout() {
     setShowModal(false);
   };
 
+  const onCloseAlert = () => {
+    dispatch(actions.clearNotification());
+  };
+
   return (
     <>
       <Box sx={{ display: "flex" }}>
@@ -75,7 +85,7 @@ export function Layout() {
               to={import.meta.env.VITE_REDIRECT_HOME}
               style={{ display: "flex", alignItems: "center", justifyContent: "center" }}
             >
-              {isScreen600 ? (
+              {isLaptopScreen ? (
                 <Button variant="outlined" sx={{ color: "white", borderColor: "white" }}>
                   Вернуться на сайт
                 </Button>
@@ -92,7 +102,7 @@ export function Layout() {
                 disablePadding
                 sx={{ display: "block" }}
                 key={menuItem.path}
-                onClick={isScreen600 ? pureFn : handleDrawerHide}
+                onClick={isLaptopScreen ? pureFn : handleDrawerHide}
               >
                 <LinkApp to={menuItem.path} style={{ color: "inherit" }}>
                   <ListItemButton
@@ -164,6 +174,12 @@ export function Layout() {
             </Button>
           </>
         }
+      />
+      <SnackbarApp
+        isOpen={!!notification.text}
+        description={notification.text}
+        severity={notification.type}
+        handleClose={onCloseAlert}
       />
     </>
   );

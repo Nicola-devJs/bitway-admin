@@ -24,3 +24,10 @@ export interface IPropertyParamsPlot {
 export interface IPropertyParamsGarage {
   generalArea: string;
 }
+
+export type PropertyParamsFields = {
+  [paramKey in keyof (IPropertyParamsApartments &
+    IPropertyParamsHouse &
+    IPropertyParamsPlot &
+    IPropertyParamsGarage)]: string;
+};

@@ -20,10 +20,10 @@ const closedMixin = (theme: Theme): CSSObject => ({
   }),
   overflowX: "hidden",
   width: `calc(${theme.spacing(7)} + 1px)`,
-  [theme.breakpoints.up("sm")]: {
+  [theme.breakpoints.up("md")]: {
     width: `calc(${theme.spacing(8)} + 1px)`,
   },
-  [theme.breakpoints.down("sm")]: {
+  [theme.breakpoints.down("md")]: {
     width: 0,
   },
 });
@@ -56,7 +56,7 @@ export const DrawerApp = styled(Drawer, { shouldForwardProp: (prop) => prop !== 
   flexShrink: 0,
   whiteSpace: "nowrap",
   boxSizing: "border-box",
-  [theme.breakpoints.up("sm")]: {
+  [theme.breakpoints.up("md")]: {
     ...(open && {
       ...openedMixin(theme),
       "& .MuiDrawer-paper": openedMixin(theme),
@@ -66,7 +66,7 @@ export const DrawerApp = styled(Drawer, { shouldForwardProp: (prop) => prop !== 
       "& .MuiDrawer-paper": closedMixin(theme),
     }),
   },
-  [theme.breakpoints.down("sm")]: {
+  [theme.breakpoints.down("md")]: {
     ...(open && {
       ...openedMixin(theme),
       "& .MuiDrawer-paper": openedMixin(theme),
@@ -100,7 +100,7 @@ export const Overlay = styled("div")<{ open: boolean }>(({ theme, open }) => ({
     duration: theme.transitions.duration.leavingScreen,
   }),
 
-  [theme.breakpoints.up("sm")]: {
+  [theme.breakpoints.up("md")]: {
     display: "none",
   },
 }));

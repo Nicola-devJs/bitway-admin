@@ -25,3 +25,10 @@ export interface IPropertyFeaturesGarage {
   waterSupply: string;
   electricity: string;
 }
+
+export type PropertyFeaturedFields = {
+  [featuredKey in keyof (IPropertyFeaturesApartments &
+    IPropertyFeaturesHouse &
+    IPropertyFeaturesPlot &
+    IPropertyFeaturesGarage)]: string;
+};

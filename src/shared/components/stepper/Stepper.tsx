@@ -10,11 +10,12 @@ import { resetUnnecessaryFieldsForm } from "../../helpers/filterProperty";
 import { AnnouncementTypeFormFieldsName } from "../../../pages/publish/steps/components/FormFields";
 import { PropertyInfo } from "../propertyInfo/PropertyInfo";
 import { LinkApp } from "../../UI/link/LinkApp";
-import { GenericTypeFields, IFormFields, OptionsCategoryValueKeys } from "../../interfaces/form/formFields";
+import { OptionsCategoryValueKeys } from "../../interfaces/form/formFields";
 import { StepContent, Typography } from "@mui/material";
 import { getTargetCategory } from "../../helpers/propertyValue";
+import { IPropertyCard } from "../../interfaces/property";
 
-interface IProps<T extends IFormFields<GenericTypeFields>> {
+interface IProps<T extends IPropertyCard> {
   getSteps: (category: OptionsCategoryValueKeys) => { label: string; fields?: FieldFormType<T>[] }[];
   getFormData: (data: T) => void;
   isErrorRequest: boolean;
@@ -23,7 +24,7 @@ interface IProps<T extends IFormFields<GenericTypeFields>> {
   disabledField?: { [field: string]: boolean };
 }
 
-export const StepperApp = <T extends IFormFields<GenericTypeFields>>({
+export const StepperApp = <T extends IPropertyCard>({
   getSteps,
   getFormData,
   isErrorRequest,
@@ -43,7 +44,7 @@ export const StepperApp = <T extends IFormFields<GenericTypeFields>>({
   const getCurrentCategory = (): string => {
     const category = getTargetCategory(categoryValue, defaultValues?.category);
 
-    return category ? `| ${category} | ${defaultValues?.heading}` : "";
+    return category ? `| ${category}` : "";
   };
 
   const totalSteps = (decrement: number = 0) => steps.length - decrement;
@@ -128,7 +129,7 @@ export const StepperApp = <T extends IFormFields<GenericTypeFields>>({
                     disabledField={disabledField}
                   />
                 ) : (
-                  <PropertyInfo property={getValues()} />
+                  <PropertyInfo property={getValues()} isPreview />
                 )}
               </Box>
 

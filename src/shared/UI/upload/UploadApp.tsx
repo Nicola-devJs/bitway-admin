@@ -8,6 +8,7 @@ import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useUploadFilesMutation } from "../../../redux/services/files";
+import { ImageListApp } from "../../components/ImageList/ImageListApp";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -21,30 +22,6 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-const ItemImageOverlay = styled(Box)({
-  "position": "absolute",
-  "top": 0,
-  "left": 0,
-  "right": 0,
-  "bottom": 0,
-  "transition": "all .2s ease",
-  "display": "flex",
-  "justifyContent": "center",
-  "alignItems": "center",
-  "backgroundColor": "transparent",
-  "opacity": 0,
-  ":hover": {
-    backgroundColor: "rgba(255, 255, 255, 0.3)",
-    opacity: 1,
-  },
-});
-
-const StyledListImages = styled("div")({
-  display: "grid",
-  grid: "auto / repeat(auto-fill, minmax(200px, 1fr))",
-  gap: 10,
-});
-
 interface IProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange"> {
   label?: string;
   helperText?: string;
@@ -54,8 +31,6 @@ interface IProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "onCh
 
 export const UploadApp = React.forwardRef<HTMLInputElement, IProps>(
   ({ error, helperText, label, onChange, value, ...props }, ref) => {
-    const [openModal, setOpenModal] = React.useState(false);
-    const [activeStepImage, setActiveStepImage] = React.useState(0);
     const [fetcherUploadFiles, { isLoading }] = useUploadFilesMutation();
 
     const getUrls = async (files: File[]): Promise<Array<string>> => {
@@ -92,24 +67,7 @@ export const UploadApp = React.forwardRef<HTMLInputElement, IProps>(
       }
     };
 
-    const showModalHandler = (idImg: number) => () => {
-      setActiveStepImage(idImg);
-      setOpenModal(true);
-    };
-
-    const hideModalHandler = () => {
-      setOpenModal(false);
-    };
-
-    const handleBackStep = () => {
-      setActiveStepImage(activeStepImage - 1);
-    };
-
-    const handleNextStep = () => {
-      setActiveStepImage(activeStepImage + 1);
-    };
-
-    const handelDeleteImage = (id: number) => () => {
+    const handelDeleteImage = (id: number) => {
       if (!Array.isArray(value)) {
         return;
       }
@@ -162,60 +120,7 @@ export const UploadApp = React.forwardRef<HTMLInputElement, IProps>(
             {helperText}
           </Typography>
         )}
-        {Array.isArray(value) && (
-          <StyledListImages>
-            {value.map((url: string, id) => (
-              <ImageListItem key={url}>
-                <img src={url} alt={`image-${url}`} loading="lazy" />
-                <ItemImageOverlay>
-                  <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <IconButton onClick={handelDeleteImage(id)} size="large" color="error">
-                      <DeleteIcon />
-                    </IconButton>
-                    <IconButton onClick={showModalHandler(id)} size="large" color="primary">
-                      <VisibilityIcon />
-                    </IconButton>
-                  </Box>
-                </ItemImageOverlay>
-              </ImageListItem>
-            ))}
-          </StyledListImages>
-        )}
-        <ModalApp
-          isOpen={openModal}
-          handelCloseModal={hideModalHandler}
-          content={
-            <Box width={"100%"} height={400}>
-              {
-                <img
-                  src={(value as string[])[activeStepImage]}
-                  alt={`image-${(value as string[])[activeStepImage]}`}
-                  loading="lazy"
-                  style={{ objectFit: "cover", objectPosition: "center", height: "inherit", width: "inherit" }}
-                />
-              }
-            </Box>
-          }
-          actions={
-            <Box sx={{ display: "flex", width: "100%", alignItems: "center", justifyContent: "space-between", py: 2 }}>
-              <Button size="small" onClick={handleBackStep} disabled={activeStepImage === 0}>
-                <KeyboardArrowLeft />
-                Back
-              </Button>
-
-              <div>{activeStepImage + 1}</div>
-
-              <Button
-                size="small"
-                onClick={handleNextStep}
-                disabled={activeStepImage === (value as string[]).length - 1}
-              >
-                Next
-                <KeyboardArrowRight />
-              </Button>
-            </Box>
-          }
-        />
+        {Array.isArray(value) && <ImageListApp images={value} onDeleteImage={handelDeleteImage} isPreviewImage />}
       </Box>
     );
   }

@@ -6,11 +6,11 @@ import { EmptyApp } from "../empty/EmptyApp";
 import { Button, styled } from "@mui/material";
 import { ErrorApp } from "../error/ErrorApp";
 import { ModalApp } from "../../UI/modal/ModalApp";
-import { SnackbarApp } from "../../UI/snackbar/Snackbar";
 import { useAddArchiveMutation, useRemovePropertyMutation } from "../../../redux/services/properties";
 import { NAVMENU } from "../../constants/menu";
 import { BackdropContext } from "../../hoc/BackdropProvider";
-import { IFormFields, GenericTypeFields } from "../../interfaces/form/formFields";
+import { writeUrlProperty } from "../../helpers/others";
+import { useSetSnackbar } from "../../hooks/useSetSnackbar";
 
 interface IProps {
   list: IPropertyCard[] | undefined;
@@ -25,56 +25,49 @@ const StyledList = styled("div")({
 });
 
 export const ListPropertyCards = ({ list, loading, error }: IProps) => {
-  const [descriptionSnackbar, setDescriptionSnackbar] = useState("");
   const [openModal, setOpenModal] = useState(false);
   const [propertyId, setPropertyId] = useState<string | null>(null);
-
   const { toggleBackdrop } = useContext(BackdropContext);
-
+  const { onErrorNotification, onSuccessNotification } = useSetSnackbar();
   const [removePropertyAction, { isLoading }] = useRemovePropertyMutation();
   const [addArchiveAction, { isLoading: addArchiveLoading }] = useAddArchiveMutation();
-
-  const clearDescriptionSnackbar = () => {
-    setDescriptionSnackbar("");
-  };
 
   const handleDeleteProperty = (id: string) => {
     setOpenModal(true);
     setPropertyId(id);
   };
 
-  const handleAddArchive = (id: string, property: IFormFields<GenericTypeFields>) => {
-    addArchiveAction({ id, body: property });
+  const handleAddArchive = async (id: string, property: IPropertyCard) => {
+    try {
+      await addArchiveAction({ id, body: property }).unwrap();
+      onSuccessNotification("Вы успешно добавили объект в архив");
+    } catch (error) {
+      onErrorNotification("Ваш объект не добавился в архив, попробуйте еще раз");
+    }
   };
 
   const hideModalHandler = () => {
     setOpenModal(false);
   };
 
-  const writeUrlProperty = (id: string) => {
-    const sharePropertyLink = `${NAVMENU.PROPERTY}${id}`;
-
-    navigator.clipboard
-      .writeText(window.location.href + sharePropertyLink)
-      .then(() => setDescriptionSnackbar("Ссылка на объект недвижимости скопирована"))
-      .catch(() => setDescriptionSnackbar("Упс, ссылка не скопировалась, попробуйте еще раз"));
+  const onWriteUrlProperty = (id: string) => {
+    writeUrlProperty(id, onSuccessNotification, onErrorNotification);
   };
 
-  const deleteProperty = () => {
+  const deleteProperty = async () => {
     if (!propertyId) {
       return;
     }
 
-    removePropertyAction(propertyId)
-      .unwrap()
-      .then(() => {
-        setDescriptionSnackbar("Вы успешно удалили объект");
-      })
-      .catch(() => setDescriptionSnackbar("Ваш объект не удалился, попробуйте еще раз"))
-      .finally(() => {
-        hideModalHandler();
-        setPropertyId(null);
-      });
+    try {
+      await removePropertyAction(propertyId).unwrap();
+      onSuccessNotification("Вы успешно удалили объект");
+    } catch (error) {
+      onErrorNotification("Ваш объект не удалился, попробуйте еще раз");
+    } finally {
+      hideModalHandler();
+      setPropertyId(null);
+    }
   };
 
   useEffect(() => {
@@ -103,7 +96,7 @@ export const ListPropertyCards = ({ list, loading, error }: IProps) => {
               property={item}
               showModalDelete={handleDeleteProperty}
               showModalAddArchive={handleAddArchive}
-              setShareUrlProperty={writeUrlProperty}
+              setShareUrlProperty={onWriteUrlProperty}
               redirectPathname={NAVMENU.PROPERTY}
             />
           ))}
@@ -123,11 +116,6 @@ export const ListPropertyCards = ({ list, loading, error }: IProps) => {
             </Button>
           </>
         }
-      />
-      <SnackbarApp
-        isOpen={!!descriptionSnackbar}
-        handleClose={clearDescriptionSnackbar}
-        description={descriptionSnackbar}
       />
     </>
   );

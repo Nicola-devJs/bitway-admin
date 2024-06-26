@@ -1,10 +1,9 @@
 import { Status } from "../constants/status";
 import { GenericTypeFields, IFormFields } from "./form/formFields";
 
-export type IPropertyCard = {
+export type IPropertyCard<T extends GenericTypeFields = GenericTypeFields> = {
   _id: string;
-  favourite: boolean;
-} & IFormFields<GenericTypeFields>;
+} & IFormFields<T>;
 
 export interface IResponseProperty {
   object: IPropertyCard;

@@ -14,5 +14,5 @@ export const ArchiveProperty = () => {
     toggleBackdrop(isLoading);
   }, [isLoading]);
 
-  return <>{property ? <PropertyInfo property={property.object} /> : null}</>;
+  return <>{property ? <PropertyInfo property={property.object} isArchive /> : null}</>;
 };
