@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { PropertyCard } from "../card/PropertyCard";
 import { IPropertyCard } from "../../interfaces/property";
 import { SkeletonCard } from "../skeleton/SkeletonApp";

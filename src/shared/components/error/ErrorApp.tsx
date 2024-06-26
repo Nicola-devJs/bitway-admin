@@ -1,4 +1,3 @@
-import React from "react";
 import { IErrorResponse } from "../../interfaces/error";
 
 const isErrorResponse = (error: unknown): error is IErrorResponse => {

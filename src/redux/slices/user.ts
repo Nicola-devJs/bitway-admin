@@ -5,7 +5,10 @@ const userSlice = createSlice({
   name: "properties",
   initialState: {} as IUserResponse,
   reducers: {
-    setUser: (state, action: PayloadAction<IUserResponse>) => (state = action.payload),
+    setUser: (state, action: PayloadAction<IUserResponse>) => {
+      state = action.payload;
+      return state;
+    },
   },
 });
 

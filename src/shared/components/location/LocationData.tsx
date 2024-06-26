@@ -1,5 +1,5 @@
 import { BaseTextFieldProps, TextField } from "@mui/material";
-import React, { ChangeEventHandler, forwardRef, useEffect, useState } from "react";
+import { ChangeEventHandler, forwardRef, useEffect, useState } from "react";
 import { useGetLocationQuery } from "../../../redux/services/properties";
 import { SelectApp } from "../../UI/select/SelectApp";
 

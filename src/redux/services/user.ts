@@ -16,7 +16,7 @@ export const userApi = createApi({
           Authorization: `Bearer ${token}`,
         },
       }),
-      onQueryStarted: async (token, { queryFulfilled, dispatch }) => {
+      onQueryStarted: async (_, { queryFulfilled, dispatch }) => {
         try {
           const { data } = await queryFulfilled;
           dispatch(actions.setUser(data));
