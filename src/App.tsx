@@ -21,8 +21,9 @@ function App() {
       toggleBackdrop(true);
 
       await fetcherAuthMe(token).unwrap();
-      params.delete("token");
+      localStorage.setItem("token", token);
     } catch (error) {
+      localStorage.removeItem("token");
       window.location.replace(import.meta.env.VITE_REDIRECT_HOME);
     } finally {
       toggleBackdrop(false);

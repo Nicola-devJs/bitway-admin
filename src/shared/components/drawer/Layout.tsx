@@ -25,7 +25,6 @@ import { navMenu } from "../../constants/menu";
 import { Outlet } from "react-router-dom";
 import { LinkApp } from "../../UI/link/LinkApp";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
-import { deleteCookie } from "../../helpers/cookie";
 import { ModalApp } from "../../UI/modal/ModalApp";
 import { SnackbarApp } from "../../UI/snackbar/Snackbar";
 import { actions } from "../../../redux/slices/user";
@@ -53,7 +52,7 @@ export function Layout() {
   };
 
   const handleLogout = () => {
-    deleteCookie("token");
+    localStorage.removeItem("token");
     window.location.replace(import.meta.env.VITE_REDIRECT_AUTH);
   };
 

@@ -1,6 +1,5 @@
 import { fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { getCookie } from "../../shared/helpers/cookie";
 import { IFileResponse } from "../../shared/interfaces/uploadFile";
 
 export const filesApi = createApi({
@@ -8,7 +7,7 @@ export const filesApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_BACKEND_API,
     prepareHeaders: (headers) => {
-      const token = getCookie("token");
+      const token = localStorage.getItem("token");
       if (token) {
         headers.set("authorization", `Bearer ${token}`);
       }
