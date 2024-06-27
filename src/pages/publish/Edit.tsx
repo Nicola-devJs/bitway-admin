@@ -1,10 +1,9 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { useEditPropertyMutation, useGetPropertyByIdQuery } from "../../redux/services/properties";
 import { BackdropContext } from "../../shared/hoc/BackdropProvider";
 import { StepperApp } from "../../shared/components/stepper/Stepper";
 import { getFormSteps } from "./steps/index";
 import { IFormFields, GenericTypeFields } from "../../shared/interfaces/form/formFields";
-
 import { useParams } from "react-router-dom";
 import { useSetSnackbar } from "../../shared/hooks/useSetSnackbar";
 

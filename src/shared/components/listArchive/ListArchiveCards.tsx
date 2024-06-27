@@ -7,7 +7,6 @@ import { Button, styled } from "@mui/material";
 import { ErrorApp } from "../error/ErrorApp";
 import { ModalApp } from "../../UI/modal/ModalApp";
 import { useRemoveArchiveMutation } from "../../../redux/services/properties";
-import { NAVMENU } from "../../constants/menu";
 import { BackdropContext } from "../../hoc/BackdropProvider";
 import { useSetSnackbar } from "../../hooks/useSetSnackbar";
 import { writeUrlProperty } from "../../helpers/others";
