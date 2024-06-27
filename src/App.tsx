@@ -12,8 +12,7 @@ function App() {
     const params = new URLSearchParams(window.location.search);
     const token = params.get("token");
 
-    if (!token) {
-      window.location.replace(import.meta.env.VITE_REDIRECT_HOME);
+    if (!token || !localStorage.getItem("token")) {
       return;
     }
 
@@ -23,7 +22,6 @@ function App() {
       await fetcherAuthMe(token).unwrap();
       localStorage.setItem("token", token);
     } catch (error) {
-      localStorage.removeItem("token");
       window.location.replace(import.meta.env.VITE_REDIRECT_HOME);
     } finally {
       toggleBackdrop(false);

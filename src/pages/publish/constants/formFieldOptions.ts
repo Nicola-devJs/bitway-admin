@@ -26,6 +26,22 @@ export const optionsNumberRooms = [
   { value: "1", label: "Однокомнатная" },
   { value: "2", label: "Двухкомнатная" },
   { value: "3", label: "Трехкомнатная" },
+  { value: "4", label: "Четырехкомнатная" },
+  { value: "5", label: "Пятикомнатная" },
+];
+
+export const optionsBalconies = [
+  { value: "1", label: "Один" },
+  { value: "2", label: "Два" },
+  { value: "3", label: "Три" },
+  { value: "4", label: "Четыре" },
+];
+
+export const optionsBathroom = [
+  { value: "1", label: "Одна" },
+  { value: "2", label: "Две" },
+  { value: "3", label: "Три" },
+  { value: "4", label: "Четыре" },
 ];
 
 export const optionsEntrance = [

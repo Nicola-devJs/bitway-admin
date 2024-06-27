@@ -7,7 +7,12 @@ import {
   IPropertyParamsHouse,
   IPropertyParamsPlot,
 } from "../../../../shared/interfaces/form/paramsFields";
-import { optionsNumberRooms, optionsTypeStructure } from "../../constants/formFieldOptions";
+import {
+  optionsBalconies,
+  optionsBathroom,
+  optionsNumberRooms,
+  optionsTypeStructure,
+} from "../../constants/formFieldOptions";
 import { SelectApp } from "../../../../shared/UI/select/SelectApp";
 
 export const PropertyParamsApartments: FieldFormType<IPropertyParamsApartments>[] = [
@@ -15,10 +20,10 @@ export const PropertyParamsApartments: FieldFormType<IPropertyParamsApartments>[
     name: "floor",
     inputForm: <TextField label="Этаж" variant="outlined" type="number" />,
     rules: {
+      ...validateRequired(),
       validate: (value, fields) => {
         return +value > +fields.floorHouse ? "Этаж не может быть больше этажности дома" : true;
       },
-      ...validateRequired(),
     },
   },
   {
@@ -44,16 +49,20 @@ export const PropertyParamsApartments: FieldFormType<IPropertyParamsApartments>[
   {
     name: "livingArea",
     inputForm: <TextField label="Жилая площадь, м²" variant="outlined" type="number" />,
-    rules: validateRequired(),
+    rules: {
+      ...validateRequired(),
+      validate: (value, fields) => {
+        return +value > +fields.generalArea ? "Жилая площадь не может быть больше Общей" : true;
+      },
+    },
   },
   {
     name: "balconies",
-    inputForm: <TextField label="Балконы" variant="outlined" type="number" />,
-    rules: validateRequired(),
+    inputForm: <SelectApp options={optionsBalconies} label="Балконы" />,
   },
   {
     name: "bathroom",
-    inputForm: <TextField label="Ванная комната" variant="outlined" type="number" />,
+    inputForm: <SelectApp options={optionsBathroom} label="Ванная комната" />,
     rules: validateRequired(),
   },
 ];
@@ -67,7 +76,12 @@ export const PropertyParamsHouse: FieldFormType<IPropertyParamsHouse>[] = [
   {
     name: "livingArea",
     inputForm: <TextField label="Жилая площадь, м²" variant="outlined" type="number" />,
-    rules: validateRequired(),
+    rules: {
+      ...validateRequired(),
+      validate: (value, fields) => {
+        return +value > +fields.generalArea ? "Желая площадь не может быть больше Общей" : true;
+      },
+    },
   },
   {
     name: "floorHouse",
@@ -86,7 +100,7 @@ export const PropertyParamsHouse: FieldFormType<IPropertyParamsHouse>[] = [
   },
   {
     name: "bathroom",
-    inputForm: <TextField label="Ванная комната" variant="outlined" type="number" />,
+    inputForm: <SelectApp options={optionsBathroom} label="Ванная комната" />,
     rules: validateRequired(),
   },
 ];

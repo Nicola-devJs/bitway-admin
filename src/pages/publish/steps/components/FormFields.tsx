@@ -5,7 +5,12 @@ import {
   IDescriptionFields,
   IPriceFields,
 } from "../../../../shared/interfaces/form/formFields";
-import { validateRequired, validateTelegram, validateWhatsapp } from "../../../../shared/helpers/fieldsValidations";
+import {
+  validatePhone,
+  validateRequired,
+  validateTelegram,
+  validateWhatsapp,
+} from "../../../../shared/helpers/fieldsValidations";
 import { FieldFormType } from "../../../../shared/components/form/FormApp";
 import { TextareaApp } from "../../../../shared/UI/textarea/TextareaApp";
 import { SelectApp } from "../../../../shared/UI/select/SelectApp";
@@ -66,7 +71,7 @@ const PriceFormFields: FieldFormType<IPriceFields>[] = [
   {
     name: "phone",
     inputForm: <TextField label="Контактный телефон" variant="outlined" type="number" />,
-    rules: validateRequired(),
+    rules: validatePhone(),
   },
   {
     name: "telegram",
