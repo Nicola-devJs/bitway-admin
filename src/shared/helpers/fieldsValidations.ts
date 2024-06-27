@@ -15,18 +15,6 @@ export const validateRequired = (message: string = "Обязательное п�
   };
 };
 
-export const validatePhone = (requiredMessage: string = "Обязательное поле"): RegisterOptions => ({
-  required: { value: true, message: requiredMessage },
-  validate: (value: string = "") => {
-    const resultResponse = value.length > 12 ? `больше на ${value.length - 12}` : `меньше на ${12 - value.length}`;
-    return !value.startsWith("+")
-      ? "Номер должен начинаться с +"
-      : !value || !/^\+\d{11}$/.test(value)
-      ? `Не корректный телефон, ${resultResponse} символов`
-      : true;
-  },
-});
-
 export const validateTelegram = (): RegisterOptions => {
   return {
     validate: (value: string) => {
