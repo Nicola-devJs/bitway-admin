@@ -120,14 +120,16 @@ export const StepperApp = <T extends IPropertyCard>({
             <StepButton color="inherit">{step.label}</StepButton>
 
             <StepContent>
-              <Box sx={{ mt: 2, mb: 1, py: 2, maxWidth: 600 }}>
+              <Box sx={{ mt: 2, mb: 1, py: 2 }}>
                 {step.fields ? (
-                  <FormApp
-                    control={control}
-                    fields={step.fields as FieldFormType<T>[]}
-                    defaultValues={defaultValues}
-                    disabledField={disabledField}
-                  />
+                  <Box sx={{ maxWidth: 600 }}>
+                    <FormApp
+                      control={control}
+                      fields={step.fields as FieldFormType<T>[]}
+                      defaultValues={defaultValues}
+                      disabledField={disabledField}
+                    />
+                  </Box>
                 ) : (
                   <PropertyInfo property={getValues()} isPreview />
                 )}

@@ -195,7 +195,7 @@ export const PropertyInfo: FC<IProps> = ({ property, isArchive, isPreview }) => 
       </Box>
 
       <Box display={"flex"} gap={5} flexDirection={isLaptopScreen ? "column" : "row"}>
-        {property.photos.length && (
+        {Boolean(property.photos.length) && (
           <Box flex={"0 1 50%"}>
             <Typography variant="h5" marginBottom={3}>
               Фото
@@ -204,7 +204,7 @@ export const PropertyInfo: FC<IProps> = ({ property, isArchive, isPreview }) => 
           </Box>
         )}
 
-        {property.plans.length && (
+        {Boolean(property.plans.length) && (
           <Box flex={"0 1 50%"}>
             <Typography variant="h5" marginBottom={3}>
               Планы

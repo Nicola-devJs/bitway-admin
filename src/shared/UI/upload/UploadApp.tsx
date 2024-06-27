@@ -2,11 +2,7 @@ import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { Box, CircularProgress, IconButton, ImageListItem, Typography } from "@mui/material";
-import { ModalApp } from "../modal/ModalApp";
-import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import VisibilityIcon from "@mui/icons-material/Visibility";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import { useUploadFilesMutation } from "../../../redux/services/files";
 import { ImageListApp } from "../../components/ImageList/ImageListApp";
 

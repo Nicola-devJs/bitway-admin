@@ -28,7 +28,8 @@ export interface IDescriptionFields {
 export interface IPriceFields {
   price: string;
   phone: string;
-  messengers: string[];
+  telegram: string;
+  whatsapp: string;
 }
 
 export type OptionsCategoryValueKeys = (typeof optionsCategory)[number]["value"];

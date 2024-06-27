@@ -45,7 +45,7 @@ export const ImageListApp = ({
       <Box
         display={"grid"}
         gridTemplateColumns={`repeat(auto-fill, minmax(${widthImage}px, 1fr))`}
-        gridTemplateRows={`repeat(auto-fill, minmax(200px, ${heigthImage}px))`}
+        gridTemplateRows={`repeat(auto-fill, minmax(0px, ${heigthImage}px))`}
         gap={1}
       >
         {images.map((url: string, id) => (
